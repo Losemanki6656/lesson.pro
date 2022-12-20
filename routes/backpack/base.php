@@ -30,8 +30,9 @@ function () {
         Route::post('logout', 'Auth\LoginController@logout');
 
         // Registration Routes...
-        Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('backpack.auth.register');
-        Route::post('register', 'Auth\RegisterController@register');
+        Route::get('register', 'Auth\LoginController@showLoginForm')->name('backpack.auth.register');
+        // Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('backpack.auth.register');
+        // Route::post('register', 'Auth\RegisterController@register');
 
         // if not otherwise configured, setup the password recovery routes
         if (config('backpack.base.setup_password_recovery_routes', true)) {
