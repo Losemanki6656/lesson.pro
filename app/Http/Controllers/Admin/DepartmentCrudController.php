@@ -22,7 +22,7 @@ class DepartmentCrudController extends CrudController
     {
         $this->crud->setModel('App\Models\Department');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/department');
-        $this->crud->setEntityNameStrings('отдел', 'Отделы');
+        $this->crud->setEntityNameStrings('Бўлим', 'Бўлимлар');
     }
 
     protected function setupListOperation()
@@ -34,7 +34,7 @@ class DepartmentCrudController extends CrudController
 
         $this->crud->addColumn([
             'name' => 'name',
-            'label' => 'Наименование'
+            'label' => 'Номи'
         ]);
     }
 
@@ -44,7 +44,7 @@ class DepartmentCrudController extends CrudController
         
         $this->crud->addColumn([
             'name' => 'name',
-            'label' => 'Наименование',
+            'label' => 'Номи',
             'type' => 'text'
         ]);
         
@@ -59,7 +59,7 @@ class DepartmentCrudController extends CrudController
         // TODO: remove setFromDb() and manually define Fields
         $this->crud->addField(
             [
-                'label' => 'Наименование',
+                'label' => 'Номи',
                 'type' => 'text',
                 'name' => 'name'
             ]);

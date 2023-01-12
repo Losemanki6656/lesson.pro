@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
-
+use Auth;
 class Department extends Model
 {
     use CrudTrait;
@@ -22,6 +22,19 @@ class Department extends Model
     // protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        if (Auth::check() && Auth::user()->userorganization) {
+            $companyId = Auth::user()->userorganization->organization_id;
+
+            static::addGlobalScope('organization_id', function ($builder) use ($companyId) {
+                $builder->where('organization_id', $companyId);
+            });
+        }
+    }
 
     /*
     |--------------------------------------------------------------------------

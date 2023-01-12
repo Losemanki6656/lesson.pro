@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Auth;
 
 class Cadry extends Model
 {
@@ -23,6 +24,18 @@ class Cadry extends Model
     // protected $hidden = [];
     // protected $dates = [];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        if (Auth::check() && Auth::user()->userorganization) {
+            $companyId = Auth::user()->userorganization->organization_id;
+
+            static::addGlobalScope('organization_id', function ($builder) use ($companyId) {
+                $builder->where('organization_id', $companyId);
+            });
+        }
+    }
 
     public function department()
     {
@@ -47,7 +60,7 @@ class Cadry extends Model
     public function scopeFilter()
     {
         return self::query()
-            ->where('organization_id',auth()->user()->userorganization->organization_id)
+            ->where('organization_id', backpack_user()->userorganization->organization_id)
             ->where('status',true);
     }
 

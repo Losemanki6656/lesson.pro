@@ -25,7 +25,7 @@ class TeacherWorkerCrudController extends CrudController
     {
         $this->crud->setModel('App\Models\TeacherWorker');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/teacherworker');
-        $this->crud->setEntityNameStrings('учитель-ученик', 'учитель-ученик');
+        $this->crud->setEntityNameStrings('Устоз-шогирт', 'Устоз-шогиртлар');
     }
 
     protected function setupListOperation()
@@ -37,28 +37,28 @@ class TeacherWorkerCrudController extends CrudController
 
         $this->crud->addColumn([
             'name' => 'teacher_id',
-            'label' => 'Учитель'
+            'label' => 'Устоз'
         ]);
 
         $this->crud->addColumn([
             'name' => 'worker_id',
-            'label' => 'Ученик'
+            'label' => 'Шогирт'
         ]);
         $this->crud->addColumn([
             'name' => 'from_date',
-            'label' => 'Дата контракта'
+            'label' => 'Шартнома санаси'
         ]);
         $this->crud->addColumn([
             'name' => 'exam_date',
-            'label' => 'Дата экзамена'
+            'label' => 'Имтихон санаси'
         ]);
         $this->crud->addColumn([
             'name' => 'exam_status',
-            'label' => 'Результат экзамена'
+            'label' => 'Имтихон натижаси'
         ]);
         $this->crud->addColumn([
             'name' => 'price',
-            'label' => 'Деньги'
+            'label' => 'Рағбатлантириш'
         ]);
     }
 
@@ -69,7 +69,7 @@ class TeacherWorkerCrudController extends CrudController
         $this->crud->setValidation(TeacherWorkerRequest::class);
 
         $this->crud->addField([
-                'label' => 'Учитель',
+                'label' => 'Устоз',
                 'type' => 'select2',
                 'name' => 'teacher_id',
                 'entity' => 'teachers',
@@ -86,7 +86,7 @@ class TeacherWorkerCrudController extends CrudController
             ]);
         $this->crud->addField(
             [
-                'label' => 'Ученик',
+                'label' => 'Шогирт',
                 'type' => 'select2',
                 'name' => 'worker_id',
                 'entity' => 'workers',
@@ -103,35 +103,35 @@ class TeacherWorkerCrudController extends CrudController
 
         $this->crud->addField([
             'name' => 'from_date',
-            'label' => 'Дата контракта',
+            'label' => 'Шартнома санаси',
             'wrapper' => [
                 'class' => 'form-group col-lg-6'
             ]
         ]);
         $this->crud->addField([
             'name' => 'to_date',
-            'label' => 'Дата окончания контракта',
+            'label' => 'Шартнома тугаш санаси',
             'wrapper' => [
                 'class' => 'form-group col-lg-6'
             ]
         ]);
         $this->crud->addField([
             'name' => 'exam_date',
-            'label' => 'Дата экзамена',
+            'label' => 'Имтихон санаси',
             'wrapper' => [
                 'class' => 'form-group col-lg-6'
             ]
         ]);
         $this->crud->addField([
             'name' => 'ball',
-            'label' => 'Результат экзамена (Балл)',
+            'label' => 'Имтихон натижаси (Балл)',
             'wrapper' => [
                 'class' => 'form-group col-lg-6'
             ]
         ]);
         $this->crud->addField([
             'name' => 'price',
-            'label' => 'Деньги',
+            'label' => 'Рағбатлантириш',
             'wrapper' => [
                 'class' => 'form-group col-lg-6'
             ]

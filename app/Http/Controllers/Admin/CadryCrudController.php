@@ -29,14 +29,14 @@ class CadryCrudController extends CrudController
     {
         $this->crud->setModel('App\Models\Cadry');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/cadry');
-        $this->crud->setEntityNameStrings('сотрудник', 'Сотрудники');
+        $this->crud->setEntityNameStrings('Ходим', 'Ходимлар');
         $this->crud->enableDetailsRow();
         $this->crud->enableExportButtons();
 
         $this->crud->addFilter([
             'name'  => 'department_id',
             'type'  => 'select2',
-            'label' => 'Отделы'
+            'label' => 'Бўлимлар'
           ], function() {
               return \App\Models\Department::where('organization_id', auth()->user()->userorganization->organization_id)->pluck('name', 'id')->toArray();
           }, function($value) { // if the filter is active
@@ -46,7 +46,7 @@ class CadryCrudController extends CrudController
           $this->crud->addFilter([
             'name'  => 'position_id',
             'type'  => 'select2',
-            'label' => 'Должности'
+            'label' => 'Лавозимлар'
           ], function() {
               return \App\Models\Position::all()->pluck('name', 'id')->toArray();
           }, function($value) { // if the filter is active
@@ -56,7 +56,7 @@ class CadryCrudController extends CrudController
           $this->crud->addFilter([
             'name'  => 'education_id',
             'type'  => 'select2',
-            'label' => 'Образование'
+            'label' => 'Маълумоти'
           ], function() {
               return \App\Models\Education::all()->pluck('name', 'id')->toArray();
           }, function($value) { // if the filter is active
@@ -66,31 +66,36 @@ class CadryCrudController extends CrudController
           $this->crud->addFilter([
             'type'  => 'date_range',
             'name'  => 'job_date',
-            'label' => 'Дата приема на работу'
+            'label' => 'Корхонага кирган санаси'
           ],
           false,
           function ($value) { // if the filter is active, apply these constraints
-              $dates = json_decode($value);
-              $this->crud->addClause('where', 'job_date', '>=', $dates->from);
-              $this->crud->addClause('where', 'job_date', '<=', $dates->to . ' 23:59:59');
+              $job_date = json_decode($value);
+              if($job_date) {
+                $this->crud->addClause('where', 'job_date', '>=', $job_date->from);
+                $this->crud->addClause('where', 'job_date', '<=', $job_date->to . ' 23:59:59');
+              }
+              
           });
 
           $this->crud->addFilter([
             'type'  => 'date_range',
             'name'  => 'birth_date',
-            'label' => 'Дата рождения'
+            'label' => 'Туғилган санаси'
           ],
           false,
           function ($value) { // if the filter is active, apply these constraints
-              $dates = json_decode($value);
-              $this->crud->addClause('where', 'birth_date', '>=', $dates->from);
-              $this->crud->addClause('where', 'birth_date', '<=', $dates->to . ' 23:59:59');
+              $birth_date = json_decode($value);
+              if($birth_date) {
+                $this->crud->addClause('where', 'birth_date', '>=', $birth_date->from);
+                $this->crud->addClause('where', 'birth_date', '<=', $birth_date->to . ' 23:59:59');
+              }
           });
 
           $this->crud->addFilter([ 
             'type'  => 'simple',
             'name'  => 'status_position',
-            'label' => 'Учители'
+            'label' => 'Устозлар'
           ],
           true, // the simple filter has no values, just the "Draft" label specified above
           function() { // if the filter is active (the GET parameter "draft" exits)
@@ -99,7 +104,7 @@ class CadryCrudController extends CrudController
           $this->crud->addFilter([ 
             'type'  => 'simple',
             'name'  => 'status_work',
-            'label' => 'Основное занятие'
+            'label' => 'Асосий касб эгалари'
           ],
           true, // the simple filter has no values, just the "Draft" label specified above
           function() { // if the filter is active (the GET parameter "draft" exits)
@@ -123,14 +128,16 @@ class CadryCrudController extends CrudController
         
         $this->crud->addColumn([
             'name' => 'department_id',
-            'label' => 'Отдел',
+            'label' => 'Бўлим',
             'disable' => true,
             'visibleInTable' => false
         ]);
+
         $this->crud->addColumn([
             'name' => 'position_id',
-            'label' => 'Должность'
+            'label' => 'Лавозим'
         ]);
+        
         $this->crud->addClause('where', 'status', '=', true);
        
     }
@@ -150,49 +157,47 @@ class CadryCrudController extends CrudController
         ]);
         $this->crud->addColumn([
             'name' => 'department_id',
-            'label' => 'Отдел'
+            'label' => 'Бўлимлар'
         ]);
         $this->crud->addColumn([
             'name' => 'position_id',
-            'label' => 'Должность'
+            'label' => 'Лавозимлар'
         ]); 
         $this->crud->addColumn([
             'name' => 'education_id',
-            'label' => 'Образования'
+            'label' => 'Маълумоти'
         ]);
 
         $this->crud->addColumn([
             'name' => 'position_date',
-            'label' => 'Дата вступления в должность'
+            'label' => 'Лавозим санаси'
         ]);
         $this->crud->addColumn([
             'name' => 'job_date',
-            'label' => 'Дата приема на работу'
+            'label' => 'Корхонага кирган санаси'
         ]);
         $this->crud->addColumn([
             'name' => 'rail_date',
-            'label' => 'Дата ЖД'
+            'label' => 'Темир йўлга кирган санаси'
         ]);
         $this->crud->addColumn([
             'name' => 'birth_date',
-            'label' => 'Дата рождения'
+            'label' => 'Туғилган санаси'
         ]);
         $this->crud->addColumn([
             'name' => 'status_position',
-            'label' => 'Основное занятие'
+            'label' => 'Асосий касб эгаси'
         ]); 
         $this->crud->addColumn([
             'name' => 'status_work',
-            'label' => 'Учитель'
+            'label' => 'Устоз'
         ]);
         
     }
     protected function setupCreateOperation()
     {
         $user = auth()->user()->userorganization;
-
         $this->crud->setValidation(CadryRequest::class);
-
        
         $this->crud->addField([
             'name' => 'fullname',
@@ -200,7 +205,7 @@ class CadryCrudController extends CrudController
             'type' => 'text',
         ]);
         $this->crud->addField([
-                'label' => 'Отдел',
+                'label' => 'Бўлим',
                 'type' => 'select2',
                 'name' => 'department_id',
                 'entity' => 'department',
@@ -213,7 +218,7 @@ class CadryCrudController extends CrudController
             ]);
         $this->crud->addField(
             [
-                'label' => 'Должность',
+                'label' => 'Лавозим',
                 'type' => 'select2',
                 'name' => 'position_id',
                 'entity' => 'position',
@@ -223,7 +228,7 @@ class CadryCrudController extends CrudController
             ]); 
         $this->crud->addField(
             [
-                'label' => 'Образования',
+                'label' => 'Маълумоти',
                 'type' => 'select2',
                 'name' => 'education_id',
                 'entity' => 'education',
@@ -234,44 +239,46 @@ class CadryCrudController extends CrudController
 
         $this->crud->addField([
             'name' => 'position_date',
-            'label' => 'Дата вступления в должность',
+            'label' => 'Лавозим санаси',
             'wrapper' => [
                 'class' => 'form-group col-lg-6'
             ]
         ]);
         $this->crud->addField([
             'name' => 'job_date',
-            'label' => 'Дата приема на работу',
+            'type' => 'date',
+            'label' => 'Корхонага кирган санаси',
             'wrapper' => [
                 'class' => 'form-group col-lg-6'
             ]
         ]);
         $this->crud->addField([
             'name' => 'rail_date',
-            'label' => 'Дата ЖД',
+            'label' => 'Темир йўлга кирган санаси',
             'wrapper' => [
                 'class' => 'form-group col-lg-6'
             ]
         ]);
         $this->crud->addField([
             'name' => 'birth_date',
-            'label' => 'Дата рождения',
+            'label' => 'Туғилган санаси',
             'wrapper' => [
                 'class' => 'form-group col-lg-6'
             ]
         ]);
         $this->crud->addField([
             'name' => 'status_position',
-            'label' => 'Учитель'
+            'label' => 'Устоз'
         ]); 
         $this->crud->addField([
             'name' => 'status_work',
-            'label' => 'Основное занятие'
+            'label' => 'Асосий касб эгаси'
         ]);
 
         $this->crud->getRequest()->request->add(['railway_id'=> $user->railway_id]);
         $this->crud->getRequest()->request->add(['organization_id'=> $user->organization_id]);
         $this->crud->setOperationSetting('saveAllInputsExcept', ['_token', '_method', 'http_referrer', 'current_tab', 'save_action']);
+        
     }
 
     protected function setupUpdateOperation()

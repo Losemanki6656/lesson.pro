@@ -14,29 +14,29 @@ return [
     */
 
     // Forms
-    'save_action_save_and_new'                => 'Сохранить и создать',
-    'save_action_save_and_edit'               => 'Сохранить и продолжить редактирование',
-    'save_action_save_and_back'               => 'Сохранить и выйти',
-    'save_action_save_and_preview'            => 'Сохранить и предпросмотр',
-    'save_action_changed_notification'        => 'Действие после сохранения было изменено',
+    'save_action_save_and_new'                => 'Сақлаш ва яратиш',
+    'save_action_save_and_edit'               => 'Сақлаш ва тахрирлаш',
+    'save_action_save_and_back'               => 'Сақлаш ва чиқиш',
+    'save_action_save_and_preview'            => 'Сақлаш ва кўриш',
+    'save_action_changed_notification'        => 'Холат ўзгартирилди',
 
     // Create form
-    'add'                                     => 'Добавить',
-    'back_to_all'                             => 'Вернуться к списку',
-    'cancel'                                  => 'Отменить',
-    'add_a_new'                               => 'Добавить новый(ую)',
+    'add'                                     => 'қўшиш',
+    'back_to_all'                             => 'Жадвалга қайтиш',
+    'cancel'                                  => 'Бекор қилиш',
+    'add_a_new'                               => 'Янги қўшиш',
 
     // Edit form
-    'edit'                                    => 'Редактировать',
-    'save'                                    => 'Сохранить',
+    'edit'                                    => 'Тахрирлаш',
+    'save'                                    => 'Сақлаш',
 
     // Translatable models
-    'edit_translations'                       => 'Перевод',
+    'edit_translations'                       => 'Таржима',
     'language'                                => 'Язык',
 
     // CRUD table view
-    'all'                                     => 'Все ',
-    'in_the_database'                         => 'в базе данных',
+    'all'                                     => 'Барчаси ',
+    'in_the_database'                         => 'маълумотлар базасида',
     'list'                                    => 'Список',
     'reset'                                   => 'Сбросить',
     'actions'                                 => 'Действия',
@@ -82,15 +82,15 @@ return [
 
     // DataTables translation
     'emptyTable'                              => 'В таблице нет доступных данных',
-    'info'                                    => 'Показано _START_ до _END_ из _TOTAL_ совпадений',
+    'info'                                    => 'Кўрсатилди _START_ дан _END_ гача, _TOTAL_ та маълумотдан',
     'infoEmpty'                               => '',
-    'infoFiltered'                            => '(отфильтровано из _MAX_ совпадений)',
+    'infoFiltered'                            => '(_MAX_ тадан сараланди)',
     'infoPostFix'                             => '.',
     'thousands'                               => ',',
     'lengthMenu'                              => '_MENU_ записей на странице',
     'loadingRecords'                          => 'Загрузка...',
     'processing'                              => 'Обработка...',
-    'search'                                  => 'Поиск',
+    'search'                                  => 'Қидиоиш',
     'zeroRecords'                             => 'Совпадений не найдено',
     'paginate'                                => [
         'first'    => 'Первая',

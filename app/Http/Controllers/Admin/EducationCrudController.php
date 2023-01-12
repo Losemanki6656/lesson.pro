@@ -23,7 +23,7 @@ class EducationCrudController extends CrudController
     {
         $this->crud->setModel('App\Models\Education');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/education');
-        $this->crud->setEntityNameStrings('образования', 'образование');
+        $this->crud->setEntityNameStrings('Маълумот', 'Маълумотлар');
     }
 
     protected function setupShowOperation()
@@ -32,7 +32,7 @@ class EducationCrudController extends CrudController
         
         $this->crud->addColumn([
             'name' => 'name',
-            'label' => 'Наименование',
+            'label' => 'Номи',
             'type' => 'text'
         ]);
         
@@ -47,7 +47,7 @@ class EducationCrudController extends CrudController
 
         $this->crud->addColumn([
             'name' => 'name',
-            'label' => 'Наименование'
+            'label' => 'Номи'
         ]);
     }
 
@@ -57,7 +57,7 @@ class EducationCrudController extends CrudController
         
         $this->crud->addField([
             'name' => 'name',
-            'label' => 'Наименование',
+            'label' => 'Номи',
             'type' => 'text'
         ]);
     }

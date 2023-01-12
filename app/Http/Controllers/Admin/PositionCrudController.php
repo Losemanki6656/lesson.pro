@@ -23,7 +23,7 @@ class PositionCrudController extends CrudController
     {
         $this->crud->setModel('App\Models\Position');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/position');
-        $this->crud->setEntityNameStrings('должностъ', 'Должности');
+        $this->crud->setEntityNameStrings('Лавозим', 'Лавозимлар');
     }
 
     protected function setupListOperation()
@@ -35,7 +35,7 @@ class PositionCrudController extends CrudController
 
         $this->crud->addColumn([
             'name' => 'name',
-            'label' => 'Наименование'
+            'label' => 'Номи'
         ]);
     }
 
@@ -45,7 +45,7 @@ class PositionCrudController extends CrudController
         
         $this->crud->addColumn([
             'name' => 'name',
-            'label' => 'Наименование',
+            'label' => 'Номи',
             'type' => 'text'
         ]);
         
@@ -57,7 +57,7 @@ class PositionCrudController extends CrudController
 
         $this->crud->addField(
             [
-                'label' => 'Наименование',
+                'label' => 'Номи',
                 'type' => 'text',
                 'name' => 'name'
             ]);

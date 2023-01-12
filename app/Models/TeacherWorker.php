@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Auth;
 
 class TeacherWorker extends Model
 {
@@ -41,6 +42,19 @@ class TeacherWorker extends Model
     public function worker()
     {
         return $this->belongsTo(Cadry::class, 'worker_id');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        if (Auth::check() && Auth::user()->userorganization) {
+            $companyId = Auth::user()->userorganization->organization_id;
+
+            static::addGlobalScope('organization_id', function ($builder) use ($companyId) {
+                $builder->where('organization_id', $companyId);
+            });
+        }
     }
 
     /*
