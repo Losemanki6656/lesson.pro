@@ -192,6 +192,15 @@ class CadryCrudController extends CrudController
             'name' => 'status_work',
             'label' => 'Устоз'
         ]);
+
+        $this->crud->addColumn([
+            'name' => 'status_young_professional',
+            'label' => 'Ёш мутахассис'
+        ]); 
+        $this->crud->addColumn([
+            'name' => 'status_winter',
+            'label' => 'Биринчи қишловчи'
+        ]);
         
     }
     protected function setupCreateOperation()
@@ -268,11 +277,33 @@ class CadryCrudController extends CrudController
         ]);
         $this->crud->addField([
             'name' => 'status_position',
-            'label' => 'Устоз'
+            'label' => 'Устоз',
+            'wrapper' => [
+                'class' => 'form-group col-lg-6'
+            ]
+            
         ]); 
         $this->crud->addField([
             'name' => 'status_work',
-            'label' => 'Асосий касб эгаси'
+            'label' => 'Асосий касб эгаси',
+            'wrapper' => [
+                'class' => 'form-group col-lg-6'
+            ]
+        ]);
+
+        $this->crud->addField([
+            'name' => 'status_young_professional',
+            'label' => 'Ёш мутахассис',
+            'wrapper' => [
+                'class' => 'form-group col-lg-6'
+            ]
+        ]); 
+        $this->crud->addField([
+            'name' => 'status_winter',
+            'label' => 'Биринчи қишловчи',
+            'wrapper' => [
+                'class' => 'form-group col-lg-6'
+            ]
         ]);
 
         $this->crud->getRequest()->request->add(['railway_id'=> $user->railway_id]);
