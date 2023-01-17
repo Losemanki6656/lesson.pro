@@ -8,6 +8,7 @@ class DashboardController extends Controller
 {
     public function statistics()
     {
+        $organizations = Organization::get();
         $org_id = auth()->user()->userorganization->organization_id;
         $cadries = Cadry::filter()->count();
         $main_cadries = Cadry::filter()->where('status_work', true)->count();

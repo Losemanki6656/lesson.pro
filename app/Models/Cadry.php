@@ -64,6 +64,16 @@ class Cadry extends Model
             ->where('status',true);
     }
 
+    public function scopeRailwayFilter()
+    {
+        return self::query()
+            ->where('status',true)
+            ->when(request('organization_id'), function ( $query, $organization_id) {
+                return $query->where('organization_id', $organization_id);
+
+            });
+    }
+
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
