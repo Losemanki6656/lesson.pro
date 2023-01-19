@@ -28,4 +28,11 @@ Route::group([
     // Route::get('charts/statistic', 'Charts\StatisticChartController@response')->name('charts.'.statistic.'.index');
     Route::crud('examination', 'ExaminationCrudController');
     Route::crud('democadry', 'DemoCadryCrudController');
+
+    Route::get('cadries/{id}', 'ExaminationCrudController@cadries')
+        ->name('cadries');
+
+Route::post('send-sms-to-worker', 'ExaminationCrudController@postSendSmsToWorker')
+    ->name('post-send-sms-to-worker');
+
 }); // this should be the absolute last line of this file

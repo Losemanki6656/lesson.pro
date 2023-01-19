@@ -4,9 +4,11 @@
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('statistics') }}"><i class="la la-chart-pie nav-icon"></i> Статистика </a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('cadry') }}'><i class='nav-icon la la-users'></i> Ходимлар </a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('department') }}'><i class='nav-icon la la-cubes'></i> Бўлимлар </a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('examination') }}'><i class='nav-icon la la-balance-scale'></i> Имтихонлар</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('democadry') }}'><i class='nav-icon la la-sign-out-alt'></i> Машғулотлар</a></li>
+{{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('democadry') }}'><i class='nav-icon la la-sign-out-alt'></i> Машғулотлар</a></li> --}}
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('teacherworker') }}'><i class='nav-icon la la-hands-helping'></i> Устоз-шогирт</a></li>
+
+<li class="nav-title">Имтихонлар</li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('examination') }}'><i class='nav-icon la la-balance-scale'></i> Имтихонлар</a></li>
 
 @can('admin')
     <li class="nav-title">Предприятия</li>

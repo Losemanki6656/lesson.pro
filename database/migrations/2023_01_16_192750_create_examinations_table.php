@@ -16,17 +16,12 @@ class CreateExaminationsTable extends Migration
         Schema::create('examinations', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('railway_id')->unsigned()->index()->nullable();
-            $table->bigInteger('organization_id')->unsigned()->index()->nullable();
-            $table->bigInteger('department_id')->unsigned()->index()->nullable();
-            $table->bigInteger('cadry_id')->unsigned()->index()->nullable();
+            $table->string('name')->nullable();
+            $table->date('date_exam')->nullable();
             $table->integer('year_exam')->nullable();
             $table->integer('year_quarter')->nullable();
-            $table->integer('ball')->nullable();
             $table->boolean('status')->default(false);
             $table->foreign('railway_id')->references('id')->on('railways');
-            $table->foreign('organization_id')->references('id')->on('organizations');
-            $table->foreign('department_id')->references('id')->on('departments');
-            $table->foreign('cadry_id')->references('id')->on('cadries');
             $table->timestamps();
         });
     }
