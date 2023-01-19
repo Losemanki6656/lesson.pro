@@ -32,6 +32,8 @@ class ExaminationCrudController extends CrudController
         
         $this->crud->allowAccess('send-sms-to-worker');
         $this->crud->addButtonFromModelFunction('line', 'send-sms', 'cadries', 'beginning');
+        $this->crud->enableDetailsRow();
+        $this->crud->enableExportButtons();
     }
 
     public function cadries($id)
@@ -105,7 +107,7 @@ class ExaminationCrudController extends CrudController
             'name' => 'status',
             'label' => 'Статус',
             'type' => 'view',
-            'view' => 'backpack::crud.status',
+            'view' => 'backpack::crud.status_exam',
         ]);
     }
 
