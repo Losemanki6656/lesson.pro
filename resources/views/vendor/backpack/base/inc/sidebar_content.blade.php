@@ -30,7 +30,7 @@
 @endcan
 
 
-@can('admin')
+@can('super-admin')
     <li class="nav-title">Предприятия</li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('railway') }}'><i class='nav-icon la la-sitemap'></i>
             Катта корхоналар</a></li>
