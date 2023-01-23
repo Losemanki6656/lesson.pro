@@ -140,7 +140,7 @@
                     @endforeach
                 @else
                     <tr>
-                        <td class="text-center" colspan="5">
+                        <td class="text-center" colspan="8">
                             Ходим топилмади ...
                         </td>
                     </tr>
