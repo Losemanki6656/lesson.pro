@@ -32,6 +32,16 @@ Route::group([
     Route::get('cadries/{id}', 'ExaminationCrudController@cadries')
         ->name('cadries');
 
+    Route::get('load-cadries', 'ExaminationCrudController@load_cadries')
+        ->name('load_cadries');
+    Route::post('add_cadry_to_exam/{id}', 'ExaminationCrudController@add_cadry_to_exam')
+        ->name('add_cadry_to_exam');
+    Route::get('delete_exam_cadry/{id}', 'ExaminationCrudController@delete_exam_cadry')
+        ->name('delete_exam_cadry');
+
+    Route::get('exam-statistics', 'ExaminationController@exam_statistics')
+        ->name('exam_statistics');
+
 Route::post('send-sms-to-worker', 'ExaminationCrudController@postSendSmsToWorker')
     ->name('post-send-sms-to-worker');
 

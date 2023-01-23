@@ -9,7 +9,9 @@ use App\Models\Organization;
 use App\Models\Examination;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Alert;
 
+use Illuminate\Http\Request;
 /**
  * Class ExaminationCrudController
  * @package App\Http\Controllers\Admin
@@ -50,6 +52,65 @@ class ExaminationCrudController extends CrudController
         ]);
     }
 
+    public function add_cadry_to_exam($id, Request $request)
+    {
+        $user = auth()->user()->userorganization->railway_id;
+        $cadry = Cadry::find($request->cadry_id);
+
+        $examination = Examination::find($id);
+        $examinations = Examination::where('year_exam', $examination->year_exam)->where('year_quarter', $examination->year_quarter)->get();
+        $status = false;
+
+        foreach($examinations as $item ) {
+
+            $examcadries = ExamCadry::where('examination_id', $item->id)->where('cadry_id', $request->cadry_id)->count();
+
+            if($examcadries > 0) {
+                $status = true;
+                break;
+            } 
+        }
+
+        if($status == true) {
+            Alert::error('Ушбу ходим имтихонда қатнашган!')->flash();
+            return redirect()->back();
+        }
+        
+        if($cadry->management_id) {
+            $examCadry = new ExamCadry();
+            $examCadry->railway_id = $user;
+            $examCadry->organization_id = $request->organization_id;
+            $examCadry->management_id = $cadry->management_id;
+            $examCadry->examination_id = $id;
+            $examCadry->cadry_id = $request->cadry_id;
+            $examCadry->ball = $request->ball;
+
+            if($request->status_exam) {
+                $examCadry->status_exam = false;
+                if($request->status_dont_exam)
+                    $examCadry->status_dont_exam = true; else $examCadry->status_dont_exam = false;
+                $examCadry->comment = $request->comment;
+            } else 
+                $examCadry->status_exam = true;
+
+            $examCadry->save();
+
+            Alert::success('Муваффаққиятли амалга оширилди!')->flash();
+            return redirect()->back();
+        } else {
+            Alert::error('Хўжалик топилмади!')->flash();
+            return redirect()->back();
+        }
+       
+    }
+
+    public function delete_exam_cadry(ExamCadry $id)
+    {
+        $id->delete();
+        Alert::success('Муваффаққиятли амалга оширилди!')->flash();
+        return redirect()->back();
+    }
+
     public function loadCadry($id)
     {
         $cadries = ExamCadry::where('examination_id', $id)->get();
@@ -73,6 +134,12 @@ class ExaminationCrudController extends CrudController
                 'status' => 'success',
                 'message' => 'successfully sanded'
             ]);
+    }
+
+    public function load_cadries(Request $request)
+    {
+        $data = Cadry::where('organization_id',$request->organization_id)->where('status', true)->get();
+        return response()->json($data);
     }
 
     protected function setupListOperation()
@@ -101,6 +168,11 @@ class ExaminationCrudController extends CrudController
         $this->crud->addColumn([
             'name' => 'year_quarter',
             'label' => 'Чорак'
+        ]);
+
+        $this->crud->addColumn([
+            'name' => 'exams_count',
+            'label' => 'Ходимлар'
         ]);
 
         $this->crud->addColumn([

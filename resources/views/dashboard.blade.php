@@ -68,7 +68,7 @@
                                 aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
 
-                        <button class="btn btn-sm btn-success"><i class="la la-eye"></i> Кўриш</button>
+                        <a type="button" href="{{ route('exam_statistics') }}" class="btn btn-sm btn-success"><i class="la la-eye"></i> Кўриш</a>
                     </div>
 
                 </div>

@@ -57,8 +57,15 @@ class Examination extends Model
         return $this->belongsTo(Cadry::class);
     }
 
+    public function exams()
+    {
+        return $this->hasMany(ExamCadry::class);
+    }
   
-
+    public function getExamsCountAttribute($value)
+    {
+        return $this->exams()->count();
+    }
 
     /*
     |--------------------------------------------------------------------------
