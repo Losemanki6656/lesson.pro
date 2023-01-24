@@ -25,7 +25,7 @@ Route::group([
     Route::crud('position', 'PositionCrudController');
     Route::crud('cadry', 'CadryCrudController');
     Route::crud('teacherworker', 'TeacherWorkerCrudController');
-    // Route::get('charts/statistic', 'Charts\StatisticChartController@response')->name('charts.'.statistic.'.index');
+
     Route::crud('examination', 'ExaminationCrudController');
     Route::crud('democadry', 'DemoCadryCrudController');
 
@@ -45,7 +45,18 @@ Route::group([
     Route::get('exam-statistics', 'ExaminationController@exam_statistics')
         ->name('exam_statistics');
 
-Route::post('send-sms-to-worker', 'ExaminationCrudController@postSendSmsToWorker')
-    ->name('post-send-sms-to-worker');
+    Route::get('themes', 'ThemeController@themes')
+        ->name('themes');
+
+    Route::get('theme-cadries/{id}', 'ThemeCrudController@theme_cadries')
+        ->name('theme_cadries');
+
+    Route::post('edit_cadry_theme/{id}', 'ThemeCrudController@edit_cadry_theme')
+        ->name('edit_cadry_theme');
+
+// Route::post('send-sms-to-worker', 'ExaminationCrudController@postSendSmsToWorker')
+//     ->name('post-send-sms-to-worker');
+
+    Route::crud('theme', 'ThemeCrudController');
 
 }); // this should be the absolute last line of this file

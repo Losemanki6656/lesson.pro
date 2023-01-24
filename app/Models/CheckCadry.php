@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class CheckCadry extends Model
 {
     use HasFactory;
+
+    public function cadry()
+    {
+        return $this->belongsTo(Cadry::class);
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
 }

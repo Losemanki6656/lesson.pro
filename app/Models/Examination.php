@@ -50,8 +50,6 @@ class Examination extends Model
         ]);
     }
 
-
-
     public function cadry()
     {
         return $this->belongsTo(Cadry::class);

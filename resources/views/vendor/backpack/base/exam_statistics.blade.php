@@ -43,7 +43,7 @@
         </script>
     @endpush
 
-    <div class="container-fluid">
+    <div>
         <div class="row row-cols-auto">
             <div class="col-12 col-sm-6 col-lg-2">
                 <label for="">Имтихон натижаси</label>

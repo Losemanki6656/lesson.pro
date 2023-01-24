@@ -10,6 +10,11 @@
                 class='nav-icon la la-hands-helping'></i> Устоз-шогирт</a></li>
 @endcan
 
+@can('admin')
+    <li class="nav-title">Машғулотлар</li>
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('theme') }}'><i class='nav-icon la la-check-circle'></i> Машғулотлар</a></li>
+@endcan
+
 
 @can('admin')
     <li class="nav-title">Статистика</li>

@@ -31,8 +31,6 @@ class ExaminationCrudController extends CrudController
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/examination');
         $this->crud->setEntityNameStrings('Имтихон', 'Имтихонлар');
 
-        
-        $this->crud->allowAccess('send-sms-to-worker');
         $this->crud->addButtonFromModelFunction('line', 'send-sms', 'cadries', 'beginning');
         $this->crud->enableDetailsRow();
         $this->crud->enableExportButtons();
