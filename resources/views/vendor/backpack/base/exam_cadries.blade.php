@@ -132,17 +132,13 @@
                             <td>{{ $item->ball }}</td>
                             <td>
                                 @if ($item->status_exam == true && $item->ball >= 56)
-                                    <span class="status-column" style="float: left">
-                                        <div class="bg-success" style="border-radius: 50%">
-                                            <i class='nav-icon la la-check'></i>
-                                        </div>
-                                    </span>
+                                    <div class="circle bg-success" style="float: left">
+                                        <span class="circle__content"><i class='nav-icon la la-check'></i></span>
+                                    </div>
                                 @elseif($item->status_exam == true && $item->ball < 56)
-                                    <span class="status-column" style="float: left">
-                                        <div class="bg-danger" style="border-radius: 50%">
-                                            <i class='nav-icon la la-close'></i>
-                                        </div>
-                                    </span>
+                                    <div class="circle bg-danger" style="float: left">
+                                        <span class="circle__content"><i class='nav-icon la la-close'></i></span>
+                                    </div>
                                 @elseif($item->status_exam == false)
                                     <span class="status-column" style="float: left">
                                         @if ($item->status_dont_exam == true)
@@ -161,12 +157,12 @@
                                 <a type="button" href="{{ route('delete_exam_cadry', ['id' => $item->id]) }}"
                                     class="btn btn-outline-danger btn-sm"> <i class="la la-trash"></i> Ўчириш</a>
                             </td>
-                            
+
                         </tr>
                     @endforeach
                 @else
                     <tr>
-                        <td class="text-center" colspan="5">
+                        <td class="text-center" colspan="6">
                             Ходим топилмади ...
                         </td>
                     </tr>
@@ -193,10 +189,17 @@
 @push('after_styles')
     <link href="{{ asset('packages/select2/dist/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
     <style>
-        .status-column {
+        .circle {
+            display: inline-table;
+            vertical-align: middle;
             width: 24px;
-            margin: 0 auto;
-            display: block;
+            height: 24px;
+            border-radius: 50%;
+        }
+
+        .circle__content {
+            display: table-cell;
+            vertical-align: middle;
             text-align: center;
         }
     </style>

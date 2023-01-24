@@ -1,4 +1,4 @@
-@extends(backpack_view('layouts.top_left'))
+@extends(backpack_view('blank'))
 
 @php
     $defaultBreadcrumbs = [
@@ -27,55 +27,81 @@
         </div>
     </div>
 
+    @push('scripts')
+        <script>
+            function filter() {
+                let result_exam = $('#result_exam').val();
+                let status_exam = $('#status_exam').val();
+                let organization_id = $('#organization_id').val();
+                let management_id = $('#management_id').val();
+                let year_exam = $('#year_exam').val();
+                let year_quarter = $('#year_quarter').val();
+
+                let url = '{{ route('exam_statistics') }}';
+                window.location.href = `${url}?result_exam=${result_exam}&status_exam=${status_exam}&organization_id=${organization_id}&management_id=${management_id}&year_exam=${year_exam}&year_quarter=${year_quarter}`;
+            }
+        </script>
+    @endpush
+
     <div class="container-fluid">
         <div class="row row-cols-auto">
             <div class="col-12 col-sm-6 col-lg-2">
                 <label for="">Имтихон натижаси</label>
-                <select name="" class="form-control" id="">
-                    <option value="1">Яхши натижа кўрсатганлар</option>
-                    <option value="0">Ўта олмаганлар</option>
+                <select class="form-control" id="result_exam" onchange="filter()">
+                    <option value="" @if (request('result_exam') == null) selected @endif>Барчаси</option>
+                    <option value="1" @if (request('result_exam') == 1) selected @endif>Яхши натижа кўрсатганлар
+                    </option>
+                    <option value="2" @if (request('result_exam') == 2) selected @endif>Ўта олмаганлар</option>
                 </select>
             </div>
             <div class="col-12 col-sm-6 col-lg-2">
                 <label for="">Имтихонга қатнашиши</label>
-                <select name="" class="form-control" id="">
-                    <option value="1">Қатнашмаганлар(Сабабли)</option>
-                    <option value="0">Қатнашмаганлар(Сабабсиз)</option>
+                <select class="form-control" id="status_exam" onchange="filter()">
+                    <option value="" @if (request('status_exam') == null) selected @endif>Барчаси</option>
+                    <option value="1" @if (request('status_exam') == 1) selected @endif>Қатнашмаганлар(Сабабли)
+                    </option>
+                    <option value="2" @if (request('status_exam') == 2) selected @endif>Қатнашмаганлар(Сабабсиз)
+                    </option>
                 </select>
             </div>
             <div class="col-12 col-sm-6 col-lg-2">
                 <label for=""> Корхоналар</label>
-                <select name="" class="form-control" id="">
+                <select class="form-control" id="organization_id" onchange="filter()">
+                    <option value="" @if (request('organization_id') == null) selected @endif>Барчаси</option>
                     @foreach ($organizations as $organization)
-                        <option value="{{ $organization->id }}"> {{ $organization->name }} </option>
+                        <option value="{{ $organization->id }}" @if (request('organization_id') == $organization->id) selected @endif>
+                            {{ $organization->name }} </option>
                     @endforeach
                 </select>
             </div>
             <div class="col-12 col-sm-6 col-lg-2">
                 <label for=""> Хўжаликлар</label>
-                <select name="" class="form-control" id="">
+                <select class="form-control" id="management_id" onchange="filter()">
+                    <option value="" @if (request('management_id') == null) selected @endif>Барчаси</option>
                     @foreach ($managements as $management)
-                        <option value="{{ $management->id }}"> {{ $management->name }} </option>
+                        <option value="{{ $management->id }}" @if (request('management_id') == $management->id) selected @endif> {{ $management->name }} </option>
                     @endforeach
                 </select>
             </div>
             <div class="col-12 col-sm-6 col-lg-2">
                 <label for=""> Йил</label>
-                <select name="" class="form-control" id="">
-                    <option value="2021"> 2021</option>
-                    <option value="2022"> 2022</option>
-                    <option value="2023"> 2023</option>
-                    <option value="2024"> 2024</option>
-                    <option value="2025"> 2025</option>
+                <select class="form-control" id="year_exam" onchange="filter()">
+                    <option value=""  @if (request('year_exam') == null) selected @endif>Барчаси</option>
+                    <option value="2021" @if (request('year_exam') == 2021) selected @endif> 2021</option>
+                    <option value="2022" @if (request('year_exam') == 2022) selected @endif> 2022</option>
+                    <option value="2023" @if (request('year_exam') == 2023) selected @endif> 2023</option>
+                    <option value="2024" @if (request('year_exam') == 2024) selected @endif> 2024</option>
+                    <option value="2025" @if (request('year_exam') == 2025) selected @endif> 2025</option>
                 </select>
             </div>
             <div class="col-12 col-sm-6 col-lg-2">
                 <label for=""> Чорак</label>
-                <select name="" class="form-control" id="">
-                    <option value="1"> 1 - чорак</option>
-                    <option value="2"> 2 - чорак</option>
-                    <option value="3"> 3 - чорак</option>
-                    <option value="4"> 4 - чорак</option>
+                <select class="form-control" id="year_quarter" onchange="filter()">
+                    <option value="" @if (request('year_quarter') == null) selected @endif>Барчаси</option>
+                    <option value="1" @if (request('year_quarter') == 1) selected @endif> 1 - чорак</option>
+                    <option value="2" @if (request('year_quarter') == 2) selected @endif> 2 - чорак</option>
+                    <option value="3" @if (request('year_quarter') == 3) selected @endif> 3 - чорак</option>
+                    <option value="4" @if (request('year_quarter') == 4) selected @endif> 4 - чорак</option>
                 </select>
             </div>
         </div>
@@ -97,25 +123,21 @@
                 @if (count($exam_cadries))
                     @foreach ($exam_cadries as $item)
                         <tr>
-                            <td>{{ $loop->index + 1 }}</td>
+                            <td>{{ $exam_cadries->currentPage() * 10 - 10 + $loop->index + 1 }}</td>
                             <td>{{ $item->organization->name }}</td>
                             <td>{{ $item->cadry->fullname }}</td>
-                            <td>{{ $item->ball }}</td>
+                            <td style="font-weight: bold">{{ $item->ball }}</td>
                             <td>{{ $item->examination->year_exam }}</td>
                             <td>{{ $item->examination->year_quarter }}</td>
-                            <td>
+                            <td class="text-center">
                                 @if ($item->status_exam == true && $item->ball >= 56)
-                                    <span class="status-column" style="float: left">
-                                        <div class="bg-success" style="border-radius: 50%">
-                                            <i class='nav-icon la la-check'></i>
-                                        </div>
-                                    </span>
+                                    <div class="circle bg-success" style="float: left">
+                                        <span class="circle__content"><i class='nav-icon la la-check'></i></span>
+                                    </div>
                                 @elseif($item->status_exam == true && $item->ball < 56)
-                                    <span class="status-column" style="float: left">
-                                        <div class="bg-danger" style="border-radius: 50%">
-                                            <i class='nav-icon la la-close'></i>
-                                        </div>
-                                    </span>
+                                    <div class="circle bg-danger" style="float: left">
+                                        <span class="circle__content"><i class='nav-icon la la-close'></i></span>
+                                    </div>
                                 @elseif($item->status_exam == false)
                                     <span class="status-column" style="float: left">
                                         @if ($item->status_dont_exam == true)
@@ -160,6 +182,23 @@
             </tfoot>
         </table>
 
+        <div class="row">
+            <div class="col-md-3">
+                <div class="d-flex justify-content-start">
+                    <select name="" class="form-control" style="width: 100px" id="">
+                        <option value="10">10</option>
+                        <option value="10">20</option>
+                        <option value="10">30</option>
+                        <option value="10">100</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="d-flex justify-content-end">
+                    {{ $exam_cadries->withQueryString()->links() }}
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
@@ -174,7 +213,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <table class="bg-white table table-sm table-striped table-hover nowrap rounded shadow-xs border-xs pb-2 border-bottom">
+                    <table
+                        class="bg-white table table-sm table-striped table-hover nowrap rounded shadow-xs border-xs pb-2 border-bottom">
                         <tr>
                             <td style="font-weight: bold"> Хўжалик:</td>
                             <td>{{ $exam->management->name }}</td>
@@ -189,7 +229,8 @@
                         </tr>
                     </table>
                     @foreach ($exam->exams as $item)
-                        <table class="bg-white table table-sm table-striped table-hover nowrap rounded shadow-xs border-xs">
+                        <table
+                            class="bg-white table table-sm table-striped table-hover nowrap rounded shadow-xs border-xs">
                             <tr>
                                 <td style="font-weight: bold"> Имтихон натижаси:</td>
                                 <td>{{ $item->examination->year_exam }} Йил, {{ $item->examination->year_quarter }} -
@@ -242,10 +283,17 @@
 @push('after_styles')
     {{-- <link href="{{ asset('packages/select2/dist/css/select2.min.css') }}" rel="stylesheet" type="text/css" /> --}}
     <style>
-        .status-column {
+        .circle {
+            display: inline-table;
+            vertical-align: middle;
             width: 24px;
-            margin: 0 auto;
-            display: block;
+            height: 24px;
+            border-radius: 50%;
+        }
+
+        .circle__content {
+            display: table-cell;
+            vertical-align: middle;
             text-align: center;
         }
     </style>

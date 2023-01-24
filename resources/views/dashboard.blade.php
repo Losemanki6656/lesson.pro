@@ -11,10 +11,11 @@
             </div>
             <div class="col-12 col-md-auto">
                 <div class="d-flex flex-column flex-sm-row gap-3">
-                    <select class="form-control input-sm select2" id="railway_select"  onchange="myFilter()">
+                    <select class="form-control input-sm select2" id="railway_select" onchange="myFilter()">
                         <option value="">-- Барчаси --</option>
                         @foreach ($organizations as $item)
-                            <option @if ($item->id == request('organization_id')) selected @endif value="{{ $item->id }}">{{ $item->name }}</option>
+                            <option @if ($item->id == request('organization_id')) selected @endif value="{{ $item->id }}">
+                                {{ $item->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -24,13 +25,11 @@
             <script>
                 function myFilter() {
                     let organization_id = $('#railway_select').val();
-
-                    let url = '{{ backpack_url('statistics') }}';
+                    let url = '{{ route('statistics') }}';
                     window.location.href = `${url}?organization_id=${organization_id}`;
                 }
             </script>
         @endpush
-
         <div class="row align-items-center">
             <div class="col-sm-6 col-lg-4">
                 <div class="card border-0">
@@ -57,7 +56,7 @@
                 <div class="card border-0">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
-                            <div class="text-value text-success">{{$examination_plus}} / {{$examination_plus}}</div>
+                            <div class="text-value text-success">{{ $examination_plus }} / {{ $examination_plus }}</div>
                             <h6>(Имтихон) Ўтган кварталда</h6>
                         </div>
 
@@ -68,7 +67,8 @@
                                 aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
 
-                        <a type="button" href="{{ route('exam_statistics') }}" class="btn btn-sm btn-success"><i class="la la-eye"></i> Кўриш</a>
+                        <a type="button" href="{{ route('exam_statistics') }}" class="btn btn-sm btn-success"><i
+                                class="la la-eye"></i> Кўриш</a>
                     </div>
 
                 </div>
@@ -97,7 +97,7 @@
                 <div class="card border-0">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
-                            <div class="text-value text-danger">{{$cadries_demo}}</div>
+                            <div class="text-value text-danger">{{ $cadries_demo }}</div>
                             <h6>Ўтган ойда</h6>
                         </div>
 
@@ -154,7 +154,7 @@
                 </div>
             </div>
 
-           
+
 
             {{-- <div class="col-sm-6 col-lg-6">
                 <div class="card border-0">

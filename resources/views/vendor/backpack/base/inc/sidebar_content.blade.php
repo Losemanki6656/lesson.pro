@@ -1,6 +1,6 @@
 @can('user')
     <li class="nav-title">Организация</li>
-    <li class="nav-item"><a class="nav-link" href="{{ backpack_url('dashboard') }}"><i class="la la-home nav-icon"></i>
+    <li class="nav-item"><a class="nav-link" href="{{ route('statistics') }}"><i class="la la-home nav-icon"></i>
             {{ trans('backpack::base.dashboard') }}</a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('cadry') }}'><i class='nav-icon la la-users'></i> Ходимлар
         </a></li>

@@ -32,6 +32,9 @@ Route::group([
     Route::get('cadries/{id}', 'ExaminationCrudController@cadries')
         ->name('cadries');
 
+    Route::get('statistics', 'DashboardController@statistics')
+        ->name('statistics');
+
     Route::get('load-cadries', 'ExaminationCrudController@load_cadries')
         ->name('load_cadries');
     Route::post('add_cadry_to_exam/{id}', 'ExaminationCrudController@add_cadry_to_exam')
