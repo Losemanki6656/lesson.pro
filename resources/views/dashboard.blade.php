@@ -61,7 +61,7 @@
                 <div class="card border-0">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
-                            <div class="text-value text-success" id="result">{{ $examination_plus }} /
+                            <div class="text-value text-success" id="result">{{ $examination_minus }} /
                                 {{ $examination_plus }}</div>
                             <h6>
                                 <div class="row">
