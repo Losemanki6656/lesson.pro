@@ -9,57 +9,62 @@ use App\Models\Cadry;
 use App\Models\Organization;
 use App\Models\Examination;
 use App\Models\DemoCadry;
+use App\Models\ExamCadry;
+use App\Models\CheckCadry;
 
 
 class DashboardController
 {
     public function statistics(Request $request)
     {   
-        $month = now()->format('m');
-        $year = now()->format('Y');
-
-        if($month >= 1 && $month <= 3) $quarter = 1;
-        if($month >= 4 && $month <= 6) $quarter = 2;
-        if($month >= 7 && $month <= 9) $quarter = 3;
-        if($month >= 10 && $month <= 12) $quarter = 4;
-
-        if($quarter == 1) {
-            $year_filter = $year - 1;
-            $quarter_old = 4;
-        } else {
-            $quarter_old = $quarter - 1;
-            $year_filter = $year;
-        }
-
-        if($month == 1) {
-            $year_demo = $year - 1;
-            $month_demo = 12;
-        } else {
-            $month_demo = $month - 1;
-            $year_demo = $year;
-        }
-
-        
-        $examination_minus = Examination::query()
+        $examination_minus = ExamCadry::query()
             ->when(request('organization_id'), function ( $query, $organization_id) {
                 return $query->where('organization_id', $organization_id);
 
             })
-            ->where('year_exam', $year_filter)->where('year_quarter', $quarter_old)->where('status',false)->count();
-        $examination_plus = Examination::query()
+            ->when(request('year_exam'), function ( $query, $year_exam) {
+                return $query->where('year_exam', $year_exam);
+
+            })
+            ->when(request('quar_exam'), function ( $query, $quar_exam) {
+                return $query->where('year_quarter', $quar_exam);
+
+            })
+            ->where('ball', '<=', 56)->count();
+
+        $examination_plus = ExamCadry::query()
             ->when(request('organization_id'), function ( $query, $organization_id) {
                 return $query->where('organization_id', $organization_id);
 
             })
-            ->where('year_exam', $year_filter)->where('year_quarter', $quarter_old)->where('status',true)->count();
+            ->when(request('year_exam'), function ( $query, $year_exam) {
+                return $query->where('year_exam', $year_exam);
 
-        
-        $cadries_demo = DemoCadry::query()
+            })
+            ->when(request('quar_exam'), function ( $query, $quar_exam) {
+                return $query->where('year_quarter', $quar_exam);
+
+            })
+            ->where('ball', '>=', 56)->count();
+
+        if(request('year_theme')) $year_theme = $request->year_theme; else $year_theme = now()->format('Y');
+        if(request('month_theme')) $month_theme = $request->month_theme; else $month_theme = now()->format('m');
+
+        $cadries_demo = CheckCadry::query()
             ->when(request('organization_id'), function ( $query, $organization_id) {
                 return $query->where('organization_id', $organization_id);
 
             })
-            ->whereYear('date_demo', $year_demo)->whereMonth('date_demo', $month_demo)->count();
+            ->when(request('year_theme'), function ( $query, $year_theme) {
+                return $query->whereYear('date_theme', $year_theme);
+
+            })
+            ->when(request('month_theme'), function ( $query, $month_theme) {
+                return $query->whereMonth('date_theme', $month_theme);
+
+            })
+            ->where('status',false)
+            ->count();
 
         $organizations = Organization::get();
         $org_id = auth()->user()->userorganization->organization_id;
@@ -88,6 +93,50 @@ class DashboardController
             'examination_plus' => $examination_plus,
             'cadries_demo' => $cadries_demo
         ]);
+    }
+
+    public function asd()
+    {
+        
+        $exam_cadries = ExamCadry::query()
+            ->when(request('result_exam'), function ($query, $result_exam) {
+                if ($result_exam == 1) {
+                    return $query->where('ball','>=', 56);
+                }
+                else if($result_exam == 2)  {
+                    return $query->where('status_exam', true)->where('ball','<', 55);
+                }       
+            })
+            ->when(request('status_exam'), function ($query, $status_exam) {
+                if ($status_exam == 1) {
+                    return $query->where('status_exam', false)->where('status_dont_exam', true);
+                }
+                else if($status_exam == 2)  {
+                    return $query->where('status_exam', false)->where('status_dont_exam', false);
+                }    
+            })
+            ->when(request('organization_id'), function ($query, $organization_id) {
+                return $query->where('organization_id', $organization_id);
+            })
+            ->when(request('management_id'), function ($query, $management_id) {
+                return $query->where('management_id', $management_id);
+            })
+            ->when(request('year_exam'), function ($query) {
+                return $query->whereHas('examination', function($q) {
+                    $q->where('year_exam', request('year_exam'));
+                });
+            })
+            ->when(request('year_exam'), function ($query) {
+                return $query->whereHas('examination', function($q) {
+                    $q->where('year_exam', request('year_exam'));
+                });
+            })
+            ->when(request('year_quarter'), function ($query) {
+                return $query->whereHas('examination', function($q) {
+                    $q->where('year_quarter', request('year_quarter'));
+                });
+            })
+            ->orderBy('ball','desc')->with(['exams'])->paginate(10);
     }
 
 }

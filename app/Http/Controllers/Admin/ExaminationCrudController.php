@@ -82,6 +82,8 @@ class ExaminationCrudController extends CrudController
             $examCadry->examination_id = $id;
             $examCadry->cadry_id = $request->cadry_id;
             $examCadry->ball = $request->ball;
+            $examCadry->year_exam = $examination->year_exam;
+            $examCadry->year_quarter = $examination->year_quarter;
 
             if($request->status_exam) {
                 $examCadry->status_exam = false;

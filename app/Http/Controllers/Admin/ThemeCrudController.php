@@ -161,6 +161,8 @@ class ThemeCrudController extends CrudController
             
             $cadries = Cadry::where('department_id', $this->crud->entry->department_id)->where('status', true)->get();
 
+            $theme = Theme::find($this->crud->entry->id);
+            
             foreach($cadries as $item) {
                 $newItem = new CheckCadry();
                 $newItem->railway_id = $this->crud->entry->railway_id;
@@ -168,6 +170,7 @@ class ThemeCrudController extends CrudController
                 $newItem->department_id = $this->crud->entry->department_id;
                 $newItem->theme_id = $this->crud->entry->id;
                 $newItem->cadry_id = $item->id;
+                $newItem->date_theme = $theme->date_theme;
                 $newItem->save();
             }
 
