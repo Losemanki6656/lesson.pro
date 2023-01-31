@@ -18,4 +18,9 @@ class CheckCadry extends Model
     {
         return $this->belongsTo(Department::class);
     }
+
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
+    }
 }

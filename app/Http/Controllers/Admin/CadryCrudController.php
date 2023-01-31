@@ -119,9 +119,11 @@ class CadryCrudController extends CrudController
     protected function setupListOperation()
     {
         $this->crud->addColumn([
-            'name' => 'id',
-            'label' => '№'
-        ]);
+            'name' => 'row_number',
+            'type' => 'row_number',
+            'label' => '#',
+            'orderable' => false,
+        ])->makeFirstColumn();
 
         $this->crud->addColumn([
             'name' => 'fullname',

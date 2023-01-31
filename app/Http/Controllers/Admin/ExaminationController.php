@@ -6,6 +6,7 @@ use App\Models\ExamCadry;
 use App\Models\Organization;
 use App\Models\Management;
 use App\Models\Examination;
+use App\Models\CheckCadry;
 
 use Illuminate\Http\Request;
 
@@ -13,7 +14,7 @@ class ExaminationController
 {
     public function exam_statistics(Request $request)
     {
-
+       
         $exam_cadries = ExamCadry::query()
             ->when(request('result_exam'), function ($query, $result_exam) {
                 if ($result_exam == 1) {
@@ -52,12 +53,80 @@ class ExaminationController
                     $q->where('year_quarter', request('year_quarter'));
                 });
             })
-            ->orderBy('ball','desc')->with(['exams'])->paginate(10);
+            ->orderBy('ball','desc')->with(['exams']);
+
+            if(request('status_order')) {
+                if(request('year_exam')&&request('year_quarter')) {
+                   
+
+                    if(request('status_order') == 1)
+                    
+                    $exam_cadries = $exam_cadries->whereHas('exams', function($q) {
+                        $year_exam = request('year_exam');
+                        $year_quarter = request('year_quarter');
+                        if($year_quarter == 1) {
+                            $year_exam = $year_exam - 1;
+                            $year_quarter = 4;
+                        } else 
+                         $year_quarter = $year_quarter - 1;
+
+                        $q->where('year_exam', $year_exam)
+                            ->where('year_quarter', $year_quarter)
+                            ->where('ball','>', 56);
+                    });
+
+                    else if(request('status_order') == 2)
+                    $exam_cadries = $exam_cadries->whereHas('exams', function($q) {
+                        $year_exam = request('year_exam');
+                        $year_quarter = request('year_quarter');
+                        if($year_quarter == 1) {
+                            $year_exam = $year_exam - 1;
+                            $year_quarter = 4;
+                        } else 
+                         $year_quarter = $year_quarter - 1;
+
+                        $q->where('year_exam', $year_exam)
+                            ->where('year_quarter', $year_quarter)
+                            ->where('ball','<', 56);
+                    });
+                }
+            }
 
         $organizations = Organization::get();
         $managements = Management::get();
         
         return view('backpack::exam_statistics', [
+            'exam_cadries' => $exam_cadries->paginate(10),
+            'organizations' => $organizations,
+            'managements' => $managements,
+        ]);
+    }
+
+    public function exam_themes(Request $request)
+    {
+
+        if(request('year_theme')) $year_theme = $request->year_theme; else $year_theme = now()->format('Y');
+        if(request('month_theme')) $month_theme = $request->month_theme; else $month_theme = now()->format('m');
+
+        $exam_cadries = CheckCadry::query()
+            ->when(request('organization_id'), function ( $query, $organization_id) {
+                return $query->where('organization_id', $organization_id);
+
+            })
+            ->when(request('year_theme'), function ( $query, $year_theme) {
+                return $query->whereYear('date_theme', $year_theme);
+
+            })
+            ->when(request('month_theme'), function ( $query, $month_theme) {
+                return $query->whereMonth('date_theme', $month_theme);
+
+            })
+            ->where('status',false)->paginate(10);
+
+        $organizations = Organization::get();
+        $managements = Management::get();
+        
+        return view('backpack::exam_themes', [
             'exam_cadries' => $exam_cadries,
             'organizations' => $organizations,
             'managements' => $managements,

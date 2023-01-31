@@ -45,6 +45,9 @@ Route::group([
     Route::get('exam-statistics', 'ExaminationController@exam_statistics')
         ->name('exam_statistics');
 
+    Route::get('exam-themes', 'ExaminationController@exam_themes')
+        ->name('exam_themes');
+
     Route::get('themes', 'ThemeController@themes')
         ->name('themes');
 

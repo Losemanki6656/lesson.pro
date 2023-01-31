@@ -45,7 +45,7 @@
                         </div>
 
 
-                        <div>Ходимлар (асосий касб эгалари).</div>
+                        <div style="font-weight: bold">Ходимлар (асосий касб эгалари).</div>
 
                         <div class="progress progress-white progress-xs my-2">
                             <div class="progress-bar" role="progressbar" style="width: 13.2%" aria-valuenow="13.2"
@@ -61,7 +61,8 @@
                 <div class="card border-0">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
-                            <div class="text-value text-success" id="result">{{ $examination_minus }} /
+                            <div class="text-value text-success" id="result"> 
+                                <span class="text-danger">{{ $examination_minus }}</span> /
                                 {{ $examination_plus }}</div>
                             <h6>
                                 <div class="row">
@@ -99,7 +100,8 @@
                             </h6>
                         </div>
 
-                        <div>Топшира олмаганлар / Яхши топширганлар.</div>
+                        <div style="font-weight: bold"> <span class="text-danger">Топшира олмаганлар</span> 
+                            <span class="text-success">/ Яхши топширганлар.</span></div>
 
                         <div class="progress progress-white progress-xs my-2">
                             <div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="80"
@@ -120,7 +122,7 @@
                             <h6>Жорий йилда</h6>
                         </div>
 
-                        <div>Ёш мутахассислар сони / Устозлар.</div>
+                        <div style="font-weight: bold">Ёш мутахассислар сони / Устозлар.</div>
 
                         <div class="progress progress-white progress-xs my-2">
                             <div class="progress-bar" role="progressbar" style="width: 30%" aria-valuenow="30"
@@ -180,14 +182,14 @@
                             </h6>
                         </div>
 
-                        <div>Машғулотга қатнашмаганлар сони.</div>
+                        <div style="font-weight: bold">Машғулотга қатнашмаганлар сони.</div>
 
                         <div class="progress progress-white progress-xs my-2">
                             <div class="progress-bar" role="progressbar" style="width: 280%" aria-valuenow="280"
                                 aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
 
-                        <button class="btn btn-sm btn-danger"><i class="la la-eye"></i> Кўриш</button>
+                        <a type="button" class="btn btn-sm btn-danger" href="{{ route('exam_themes') }}"><i class="la la-eye"></i> Кўриш</a>
                     </div>
 
                 </div>
@@ -200,7 +202,7 @@
                             <h6>Жорий йилда</h6>
                         </div>
 
-                        <div>Биринчи қишловчилар сони.</div>
+                        <div style="font-weight: bold">Биринчи қишловчилар сони.</div>
 
                         <div class="progress progress-white progress-xs my-2">
                             <div class="progress-bar" role="progressbar" style="width: 280%" aria-valuenow="280"
@@ -220,7 +222,7 @@
                             <h6>Ўтган йилда</h6>
                         </div>
 
-                        <div>Малака оширганлар сони.</div>
+                        <div style="font-weight: bold">Малака оширганлар сони.</div>
 
                         <div class="progress progress-white progress-xs my-2">
                             <div class="progress-bar" role="progressbar" style="width: 280%" aria-valuenow="280"

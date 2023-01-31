@@ -36,27 +36,29 @@
                 let management_id = $('#management_id').val();
                 let year_exam = $('#year_exam').val();
                 let year_quarter = $('#year_quarter').val();
+                let status_order = $('#status_order').val();
 
                 let url = '{{ route('exam_statistics') }}';
-                window.location.href = `${url}?result_exam=${result_exam}&status_exam=${status_exam}&organization_id=${organization_id}&management_id=${management_id}&year_exam=${year_exam}&year_quarter=${year_quarter}`;
+                window.location.href =
+                    `${url}?result_exam=${result_exam}&status_exam=${status_exam}&organization_id=${organization_id}&management_id=${management_id}&year_exam=${year_exam}&year_quarter=${year_quarter}&status_order=${status_order}`;
             }
         </script>
     @endpush
 
     <div>
         <div class="row row-cols-auto">
-            <div class="col-12 col-sm-6 col-lg-2">
-                <label for="">Имтихон натижаси</label>
-                <select class="form-control" id="result_exam" onchange="filter()">
+            <div class="col-4 col-sm-3 col-lg-3">
+                <label for="" class="mb-0">Имтихон натижаси</label>
+                <select class="form-control  mb-2" id="result_exam" onchange="filter()">
                     <option value="" @if (request('result_exam') == null) selected @endif>Барчаси</option>
                     <option value="1" @if (request('result_exam') == 1) selected @endif>Яхши натижа кўрсатганлар
                     </option>
                     <option value="2" @if (request('result_exam') == 2) selected @endif>Ўта олмаганлар</option>
                 </select>
             </div>
-            <div class="col-12 col-sm-6 col-lg-2">
-                <label for="">Имтихонга қатнашиши</label>
-                <select class="form-control" id="status_exam" onchange="filter()">
+            <div class="col-4 col-sm-3 col-lg-3">
+                <label for="" class="mb-0">Имтихонга қатнашиши</label>
+                <select class="form-control  mb-2" id="status_exam" onchange="filter()">
                     <option value="" @if (request('status_exam') == null) selected @endif>Барчаси</option>
                     <option value="1" @if (request('status_exam') == 1) selected @endif>Қатнашмаганлар(Сабабли)
                     </option>
@@ -64,9 +66,9 @@
                     </option>
                 </select>
             </div>
-            <div class="col-12 col-sm-6 col-lg-2">
-                <label for=""> Корхоналар</label>
-                <select class="form-control" id="organization_id" onchange="filter()">
+            <div class="col-4 col-sm-3 col-lg-3">
+                <label for="" class="mb-0"> Корхоналар</label>
+                <select class="form-control  mb-2" id="organization_id" onchange="filter()">
                     <option value="" @if (request('organization_id') == null) selected @endif>Барчаси</option>
                     @foreach ($organizations as $organization)
                         <option value="{{ $organization->id }}" @if (request('organization_id') == $organization->id) selected @endif>
@@ -74,19 +76,20 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-12 col-sm-6 col-lg-2">
-                <label for=""> Хўжаликлар</label>
-                <select class="form-control" id="management_id" onchange="filter()">
+            <div class="col-4 col-sm-3 col-lg-3">
+                <label for="" class="mb-0"> Хўжаликлар</label>
+                <select class="form-control  mb-2" id="management_id" onchange="filter()">
                     <option value="" @if (request('management_id') == null) selected @endif>Барчаси</option>
                     @foreach ($managements as $management)
-                        <option value="{{ $management->id }}" @if (request('management_id') == $management->id) selected @endif> {{ $management->name }} </option>
+                        <option value="{{ $management->id }}" @if (request('management_id') == $management->id) selected @endif>
+                            {{ $management->name }} </option>
                     @endforeach
                 </select>
             </div>
-            <div class="col-12 col-sm-6 col-lg-2">
-                <label for=""> Йил</label>
+            <div class="col-4 col-sm-3 col-lg-3">
+                <label for="" class="mb-0"> Йил</label>
                 <select class="form-control" id="year_exam" onchange="filter()">
-                    <option value=""  @if (request('year_exam') == null) selected @endif>Барчаси</option>
+                    <option value="" @if (request('year_exam') == null) selected @endif>Барчаси</option>
                     <option value="2021" @if (request('year_exam') == 2021) selected @endif> 2021</option>
                     <option value="2022" @if (request('year_exam') == 2022) selected @endif> 2022</option>
                     <option value="2023" @if (request('year_exam') == 2023) selected @endif> 2023</option>
@@ -94,14 +97,24 @@
                     <option value="2025" @if (request('year_exam') == 2025) selected @endif> 2025</option>
                 </select>
             </div>
-            <div class="col-12 col-sm-6 col-lg-2">
-                <label for=""> Чорак</label>
+            <div class="col-4 col-sm-3 col-lg-3">
+                <label for="" class="mb-0"> Чорак</label>
                 <select class="form-control" id="year_quarter" onchange="filter()">
                     <option value="" @if (request('year_quarter') == null) selected @endif>Барчаси</option>
                     <option value="1" @if (request('year_quarter') == 1) selected @endif> 1 - чорак</option>
                     <option value="2" @if (request('year_quarter') == 2) selected @endif> 2 - чорак</option>
                     <option value="3" @if (request('year_quarter') == 3) selected @endif> 3 - чорак</option>
                     <option value="4" @if (request('year_quarter') == 4) selected @endif> 4 - чорак</option>
+                </select>
+            </div>
+            <div class="col-4 col-sm-3 col-lg-3">
+                <label for="" class="mb-0">Натижа кўрсатгичлари бўйича</label>
+                <select class="form-control" id="status_order" onchange="filter()">
+                    <option value="" @if (request('status_order') == null) selected @endif>Барчаси</option>
+                    <option value="1" @if (request('status_order') == 1) selected @endif>Кетма-кет яхши натижа
+                    </option>
+                    <option value="2" @if (request('status_order') == 2) selected @endif> Кетма-кет паст натижа
+                    </option>
                 </select>
             </div>
         </div>
@@ -152,6 +165,15 @@
                                     </span>
                                 @endif
                             </td>
+                            
+                            {{-- <td>
+                                @if (request('status_order') && request('year_exam') && request(''))
+                                    <span class="badge rounded-pill bg-success">
+                                        Яхши
+                                    </span>
+                                @endif
+                            </td> --}}
+
                             <td>
                                 <button class="btn btn-sm btn-outline-info" data-toggle="modal"
                                     data-target="#exampleModal{{ $item->id }}"><i class="la la-eye"></i>
