@@ -77,14 +77,32 @@
                         <div class="d-flex justify-content-between">
                             Имтихон натижалари
 
-                            <a type="button" href="{{ route('exam_statistics') }}" class="btn btn-sm btn-outline-success"><i
-                                class="la la-eye"></i> Кўриш</a>
+                            <a type="button" href="{{ route('exam_statistics') }}"
+                                class="btn btn-sm btn-outline-success"><i class="la la-eye"></i> Кўриш</a>
 
                         </div>
 
                     </div>
                     <div class="card-body">
                         <div id="exam"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            Имтихонда такрор яхши натижа кўрсатганлар
+
+                            <a type="button" href="{{ route('exam_statistics') }}"
+                                class="btn btn-sm btn-outline-warning"><i class="la la-eye"></i> Кўриш</a>
+
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        {{-- <div id="exam"></div> --}}
                     </div>
                 </div>
             </div>
@@ -233,11 +251,13 @@
                 type: 'column'
             },
             title: {
-                text: {{$year_exam}} + ' йилнинг ' + {{$month_exam}} + ' чорагида:',
+                text: {{ $year_exam }} + ' йилнинг ' + {{ $month_exam }} + ' чорагида:',
                 align: 'left'
             },
             xAxis: {
-                categories: ["РЖУ","ВЧД-7","ТЧ-6", "ТЧ-5", "ПЧ-10", "ПЧ-9", "ПЧ-11", "ПЧ-8", "ШЧ-7", "ШЧ-6", "ШЧ-5","ЭЧ-4", "ЭЧ-8", "ЯКТНЧК","Қоровулбозор"]
+                categories: ["РЖУ", "ВЧД-7", "ТЧ-6", "ТЧ-5", "ПЧ-10", "ПЧ-9", "ПЧ-11", "ПЧ-8", "ШЧ-7", "ШЧ-6",
+                    "ШЧ-5", "ЭЧ-4", "ЭЧ-8", "ЯКТНЧК", "Қоровулбозор"
+                ]
             },
             yAxis: {
                 min: 0,
@@ -281,11 +301,11 @@
             },
             series: [{
                 name: 'Яхши топширганлар',
-                data: [{{implode(',', $exam_plus)}}],
+                data: [{{ implode(',', $exam_plus) }}],
                 color: '#90ED7D'
             }, {
                 name: 'Топшира олмаганлар',
-                data: [{{implode(',', $exam_minus)}}],
+                data: [{{ implode(',', $exam_minus) }}],
                 color: '#000000'
             }]
         });
