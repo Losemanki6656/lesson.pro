@@ -281,10 +281,12 @@
             },
             series: [{
                 name: 'Яхши топширганлар',
-                data: [{{implode(',', $exam_plus)}}]
+                data: [{{implode(',', $exam_plus)}}],
+                color: '#90ED7D'
             }, {
                 name: 'Топшира олмаганлар',
-                data: [{{implode(',', $exam_minus)}}]
+                data: [{{implode(',', $exam_minus)}}],
+                color: '#000000'
             }]
         });
     </script>
