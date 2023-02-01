@@ -17,56 +17,59 @@ class DashboardController
 {
     public function statistics(Request $request)
     {   
-        $examination_minus = ExamCadry::query()
-            ->when(request('organization_id'), function ( $query, $organization_id) {
-                return $query->where('organization_id', $organization_id);
-
-            })
-            ->when(request('year_exam'), function ( $query, $year_exam) {
-                return $query->where('year_exam', $year_exam);
-
-            })
-            ->when(request('quar_exam'), function ( $query, $quar_exam) {
-                return $query->where('year_quarter', $quar_exam);
-
-            })
-            ->where('ball', '<=', 56)->count();
-
-        $examination_plus = ExamCadry::query()
-            ->when(request('organization_id'), function ( $query, $organization_id) {
-                return $query->where('organization_id', $organization_id);
-
-            })
-            ->when(request('year_exam'), function ( $query, $year_exam) {
-                return $query->where('year_exam', $year_exam);
-
-            })
-            ->when(request('quar_exam'), function ( $query, $quar_exam) {
-                return $query->where('year_quarter', $quar_exam);
-
-            })
-            ->where('ball', '>=', 56)->count();
-
-        if(request('year_theme')) $year_theme = $request->year_theme; else $year_theme = now()->format('Y');
-        if(request('month_theme')) $month_theme = $request->month_theme; else $month_theme = now()->format('m');
-
-        $cadries_demo = CheckCadry::query()
-            ->when(request('organization_id'), function ( $query, $organization_id) {
-                return $query->where('organization_id', $organization_id);
-
-            })
-            ->when(request('year_theme'), function ( $query, $year_theme) {
-                return $query->whereYear('date_theme', $year_theme);
-
-            })
-            ->when(request('month_theme'), function ( $query, $month_theme) {
-                return $query->whereMonth('date_theme', $month_theme);
-
-            })
-            ->where('status',false)
-            ->count();
-
         $organizations = Organization::get();
+    
+        $year_theme = now()->format('Y');
+        $month_theme = now()->format('m') - 1;
+        if($month_theme == 0) {
+            $month_theme = 12;
+            $year_theme = $year_theme - 1;
+        }
+
+        $year_exam = now()->format('Y');
+        $month_dem = now()->format('m');
+
+        if($month_dem >= 1 && $month_dem <= 3) 
+            $month_exam = 1;  else if($month_dem >= 4 && $month_dem <= 6)
+        $month_exam = 2; else  if($month_dem >= 7 && $month_dem <= 9) $month_exam = 3; else $month_exam = 4;
+
+        $month_exam = $month_exam - 1;
+        if($month_exam == 0) {
+            $month_exam = 4;
+            $year_exam = $year_exam - 1;
+        }
+
+        $demo_cadry = [];
+        $exam_cadries = [];
+        $orgs = [];
+        $exam_plus = [];
+        $exam_minus = [];
+
+        foreach($organizations as $org) {
+
+            $cadries_demo = CheckCadry::where('organization_id', $org->id)->whereYear('date_theme', $year_theme)
+                ->whereMonth('date_theme', $month_theme)
+                ->where('status', false)->count();
+            $demo_cadry[] = [
+                'name' => $org->name,
+                'y' => $cadries_demo,
+                'drilldown' => $org->name
+            ];
+
+            $examination_minus = ExamCadry::where('organization_id', $org->id)
+                ->where('year_exam', $year_exam)
+                ->where('year_quarter', $month_exam)
+                ->where('ball', '<=', 56)->count();
+
+            $examination_minus = ExamCadry::where('organization_id', $org->id)
+                ->where('year_exam', $year_exam)
+                ->where('year_quarter', $month_exam)
+                ->where('ball', '>=', 56)->count();
+            $orgs[] = $org->name;
+            $exam_plus[] = $examination_minus;
+            $exam_minus[] = $examination_minus;
+        }
+
         $org_id = auth()->user()->userorganization->organization_id;
         $cadries = Cadry::RailwayFilter()->count();
         $main_cadries = Cadry::RailwayFilter()->where('status_work', true)->count();
@@ -79,7 +82,6 @@ class DashboardController
             trans('backpack::crud.admin')     => backpack_url('statistics'),
             trans('backpack::base.statistics') => false,
         ];
-
         return view('dashboard', [
             'title' => trans('backpack::base.statistics'),
             'breadcrumbs' => $breadcrumbs,
@@ -89,9 +91,15 @@ class DashboardController
             'teacher_cadries' => $teacher_cadries,
             'organizations' => $organizations,
             'cadrywinter' => $cadrywinter,
-            'examination_minus' => $examination_minus,
-            'examination_plus' => $examination_plus,
-            'cadries_demo' => $cadries_demo
+            'demo_cadry' => $demo_cadry,
+            'year_check' => $year_theme,
+            'month_check' => $month_theme,
+            'orgs' => $orgs,
+            'exam_plus' => $exam_plus,
+            'exam_minus' => $exam_minus,
+            'year_exam' => $year_exam,
+            'month_exam' => $month_exam,
+
         ]);
     }
 
@@ -138,5 +146,7 @@ class DashboardController
             })
             ->orderBy('ball','desc')->with(['exams'])->paginate(10);
     }
+
+  
 
 }
