@@ -23,19 +23,16 @@ class ThemeController
     public function control()
     {
 
-        $cadries = ExamCadry::get();
+        $cadries = Cadry::where('management_id', 2)->get();
 
         foreach($cadries as $item)
         {
-            $cadry = Cadry::find($item->cadry_id);
-            $item->department_id = $cadry->department_id;
-            $item->position_id = $cadry->position_id;
-            $item->user_id = backpack_user()->id;
+            $item->organization_id = 16;
             $item->save();
         }
 
         
-        return back();
+        return redirect()->back();
     }
 
 }
