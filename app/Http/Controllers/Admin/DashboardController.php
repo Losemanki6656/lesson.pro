@@ -13,6 +13,7 @@ use App\Models\ExamCadry;
 use App\Models\CheckCadry;
 
 use App\Models\Management;
+use App\Models\OrganizationManagement;
 
 
 class DashboardController
@@ -90,7 +91,7 @@ class DashboardController
 
         $managements = Management::all();
 
-        $a = [];
+        $a = []; $b = [];
         foreach($managements as $man) 
         {
             $q = ExamCadry::where('management_id', $man->id)
@@ -98,10 +99,29 @@ class DashboardController
                     ->where('year_quarter', $month_exam)
                     ->where('ball', '!=', 0);
 
+            $orgs = OrganizationManagement::where('management_id', $man->id)->pluck('organization_id')->toArray();
+            $organizations = Organization::whereIn('id', $orgs)->get();
+
+            foreach ($organizations as $org) {
+                $z = $q->where('organization_id', $org->id);
+
+                if($z->count()) 
+                        $koef = $z->sum('ball')/$z->count();
+                     else 
+                     $koef = 0;
+
+                $b[$man->id][] =  [
+                    'name' => $org->name,
+                    'koef' => $koef
+                ];
+                
+                
+            }
+
             if($q->count())
                 $a[$man->id] = $q->sum('ball')/$q->count(); else $a[$man->id] = 0;
         }
-
+        // dd($b);
         return view('dashboard', [
             'title' => trans('backpack::base.statistics'),
             'breadcrumbs' => $breadcrumbs,
@@ -120,8 +140,8 @@ class DashboardController
             'year_exam' => $year_exam,
             'month_exam' => $month_exam,
             'managements' => $managements,
-            'a' => $a
-
+            'a' => $a,
+            'b' => $b
         ]);
     }
 

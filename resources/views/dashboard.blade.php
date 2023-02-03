@@ -94,6 +94,7 @@
                 <h6 style="font-weight: bold">---------------Имтихон натижалари (Ўтган чорак)---------------</h6>
             </div>
         </div>
+
         <div class="row align-items-center">
             @foreach ($managements as $item)
                 <div class="col-md-3">
@@ -102,8 +103,8 @@
                             <div class="d-flex justify-content-between">
                                 <span style="font-weight: bold">{{ $item->name }}</span>
 
-                                <a type="button" href="{{ route('exam_statistics') }}"
-                                    class="btn btn-sm btn-outline-info"><i class="la la-eye"></i></a>
+                                <button type="button" data-toggle="modal" data-target="#exampleModal{{ $item->id }}"
+                                    class="btn btn-sm btn-outline-info"><i class="la la-eye"></i></button>
 
                             </div>
 
@@ -115,10 +116,66 @@
                     </div>
                 </div>
             @endforeach
-
         </div>
     </div>
 @endsection
+
+@foreach ($managements as $item)
+    <div class="modal fade" id="exampleModal{{ $item->id }}" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form action="" method="post">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"> Корхоналар бўйича</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="bg-white table table-striped table-hover nowrap rounded shadow-xs border-xs mt-2"
+                            cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Корхона</th>
+                                    <th>Балл</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($b[$item->id] as $arr)
+                                    <tr>
+                                        <td></td>
+                                        <td>{{$arr['name']}}</td>
+                                        <td>{{$arr['koef']}}</td>
+                                        <td>
+                                            <a type="button" href=""
+                                                class="btn btn-sm btn-outline-success"><i class="la la-eye"></i> Кўриш</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Корхона</th>
+                                    <th>Балл</th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"> <i class="la la-ban"></i>
+                            Бекор қилиш </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endforeach
 
 @section('after_scripts')
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
