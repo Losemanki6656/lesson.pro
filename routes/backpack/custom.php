@@ -15,7 +15,8 @@ Route::group([
         (array) config('backpack.base.middleware_key', 'admin')
     ),
     'namespace'  => 'App\Http\Controllers\Admin',
-], function () { // custom admin routes
+], function () { 
+
     Route::crud('railway', 'RailwayCrudController');
     Route::crud('organization', 'OrganizationCrudController');
     Route::crud('user', 'UserCrudController');
@@ -50,6 +51,9 @@ Route::group([
 
     Route::get('themes', 'ThemeController@themes')
         ->name('themes');
+
+    Route::get('control', 'ThemeController@control')
+        ->name('control');
 
     Route::get('theme-cadries/{id}', 'ThemeCrudController@theme_cadries')
         ->name('theme_cadries');

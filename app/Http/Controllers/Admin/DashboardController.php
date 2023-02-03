@@ -12,11 +12,15 @@ use App\Models\DemoCadry;
 use App\Models\ExamCadry;
 use App\Models\CheckCadry;
 
+use App\Models\Management;
+
 
 class DashboardController
 {
     public function statistics(Request $request)
     {   
+        
+
         $organizations = Organization::get();
     
         $year_theme = now()->format('Y');
@@ -65,6 +69,7 @@ class DashboardController
                 ->where('year_exam', $year_exam)
                 ->where('year_quarter', $month_exam)
                 ->where('ball', '>=', 56)->count();
+
             $orgs[] = $org->name;
             $exam_plus[] = $examination_minus;
             $exam_minus[] = $examination_minus;
@@ -82,6 +87,21 @@ class DashboardController
             trans('backpack::crud.admin')     => backpack_url('statistics'),
             trans('backpack::base.statistics') => false,
         ];
+
+        $managements = Management::all();
+
+        $a = [];
+        foreach($managements as $man) 
+        {
+            $q = ExamCadry::where('management_id', $man->id)
+                    ->where('year_exam', $year_exam)
+                    ->where('year_quarter', $month_exam)
+                    ->where('ball', '!=', 0);
+
+            if($q->count())
+                $a[$man->id] = $q->sum('ball')/$q->count(); else $a[$man->id] = 0;
+        }
+
         return view('dashboard', [
             'title' => trans('backpack::base.statistics'),
             'breadcrumbs' => $breadcrumbs,
@@ -99,6 +119,8 @@ class DashboardController
             'exam_minus' => $exam_minus,
             'year_exam' => $year_exam,
             'month_exam' => $month_exam,
+            'managements' => $managements,
+            'a' => $a
 
         ]);
     }

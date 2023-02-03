@@ -88,24 +88,33 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row align-items-center text-center">
+            <div class="col text-center">
+                <h6 style="font-weight: bold">---------------Имтихон натижалари (Ўтган чорак)---------------</h6>
+            </div>
+        </div>
+        <div class="row align-items-center">
+            @foreach ($managements as $item)
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between">
+                                <span style="font-weight: bold">{{ $item->name }}</span>
 
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="d-flex justify-content-between">
-                            Имтихонда такрор яхши натижа кўрсатганлар
+                                <a type="button" href="{{ route('exam_statistics') }}"
+                                    class="btn btn-sm btn-outline-info"><i class="la la-eye"></i></a>
 
-                            <a type="button" href="{{ route('exam_statistics') }}"
-                                class="btn btn-sm btn-outline-warning"><i class="la la-eye"></i> Кўриш</a>
+                            </div>
 
                         </div>
-
-                    </div>
-                    <div class="card-body">
-                        {{-- <div id="exam"></div> --}}
+                        <div class="card-body text-center">
+                            <span @if ($a[$item->id] > 56) class="text-success" @endif style="font-weight: bold">
+                                Ўртача - {{ $a[$item->id] }}%</span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endforeach
 
         </div>
     </div>
