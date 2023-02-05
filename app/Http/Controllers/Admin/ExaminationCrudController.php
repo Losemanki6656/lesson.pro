@@ -92,6 +92,10 @@ class ExaminationCrudController extends CrudController
                 $examCadry->comment = $request->comment;
             } else 
                 $examCadry->status_exam = true;
+            
+            $examCadry->department_id = $cadry->department_id;
+            $examCadry->position_id = $cadry->position_id;
+            $examCadry->user_id = backpack_user()->id;
 
             $examCadry->save();
 

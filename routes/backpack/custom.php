@@ -51,6 +51,18 @@ Route::group([
 
     Route::get('themes', 'ThemeController@themes')
         ->name('themes');
+    
+    Route::get('exam-teachers/{org_id}/{manag_id}', 'DashboardController@exam_teachers')
+        ->name('exam_teachers');
+    Route::get('exam-teacher-deps/{org_id}/{manag_id}/{user_id}', 'DashboardController@exam_teacher_deps')
+        ->name('exam_teacher_deps');
+    
+    
+    Route::get('exam-teacher-dep-positions/{org_id}/{manag_id}/{user_id}/{dep_id}', 'DashboardController@exam_teacher_dep_positions')
+        ->name('exam_teacher_dep_positions');
+    
+    Route::get('exam-teacher-dep-position-cadries/{org_id}/{manag_id}/{user_id}/{dep_id}/{pos_id}', 'DashboardController@exam_teacher_dep_position_cadries')
+        ->name('exam_teacher_dep_position_cadries');
 
     Route::get('control', 'ThemeController@control')
         ->name('control');
