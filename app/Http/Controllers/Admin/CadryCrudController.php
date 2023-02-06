@@ -211,7 +211,6 @@ class CadryCrudController extends CrudController
     {
         $user = auth()->user()->userorganization;
         $this->crud->setValidation(CadryRequest::class);
-        dd($user);
         $management = OrganizationManagement::where('organization_id', $user->organization_id);
         
 
