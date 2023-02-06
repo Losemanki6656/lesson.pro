@@ -211,30 +211,15 @@ class CadryCrudController extends CrudController
     {
         $user = auth()->user()->userorganization;
         $this->crud->setValidation(CadryRequest::class);
-
-        $manag = false;
-
+        dd($user);
         $management = OrganizationManagement::where('organization_id', $user->organization_id);
-     
+        
+
         $this->crud->addField([
             'name' => 'fullname',
             'label' => 'ФИО',
             'type' => 'text',
         ]);
-
-        if($management->count() < 1) 
-        {
-            $this->crud->addField([
-                'label' => 'Хўжалик номи',
-                'type' => 'select2',
-                'name' => 'management_id',
-                'model' => Management::class,
-                'attribute' => 'name',
-                'default'   => 1
-            ]);
-
-            $manag = true;
-        }
 
         $this->crud->addField([
                 'label' => 'Бўлим',
@@ -332,10 +317,8 @@ class CadryCrudController extends CrudController
         $this->crud->getRequest()->request->add(['railway_id'=> $user->railway_id]);
         $this->crud->getRequest()->request->add(['organization_id'=> $user->organization_id]);
 
-        if($manag == false) {
-            $man = $management->first();
-            $this->crud->getRequest()->request->add(['management_id'=> $man->id]);
-        }
+        $man = $management->first();
+        $this->crud->getRequest()->request->add(['management_id'=> $man->management_id]);
 
         $this->crud->setOperationSetting('saveAllInputsExcept', ['_token', '_method', 'http_referrer', 'current_tab', 'save_action']);
         
