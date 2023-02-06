@@ -7,6 +7,8 @@ use App\Models\Cadry;
 use App\Models\ExamCadry;
 use App\Models\Organization;
 use App\Models\Examination;
+use App\Models\UserOrganization;
+use App\Models\User;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Alert;
@@ -95,7 +97,7 @@ class ExaminationCrudController extends CrudController
             
             $examCadry->department_id = $cadry->department_id;
             $examCadry->position_id = $cadry->position_id;
-            $examCadry->user_id = backpack_user()->id;
+            $examCadry->user_id = $request->teacher_id;
 
             $examCadry->save();
 
@@ -143,7 +145,20 @@ class ExaminationCrudController extends CrudController
     public function load_cadries(Request $request)
     {
         $data = Cadry::where('organization_id',$request->organization_id)->where('status', true)->get();
+
         return response()->json($data);
+    }
+
+    public function load_users(Request $request)
+    {
+        $userorgs = UserOrganization::where('organization_id', $request->organization_id)->pluck('user_id')->toArray();
+        
+        $users = User::whereIn('id', $userorgs)->whereHas(
+            'roles', function($q){
+                $q->where('name', 'teacher_theme');
+            })->get();
+
+        return response()->json($users);
     }
 
     protected function setupListOperation()

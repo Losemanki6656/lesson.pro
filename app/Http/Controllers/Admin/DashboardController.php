@@ -167,7 +167,7 @@ class DashboardController
         
         $users = User::whereIn('id', $userorgs)->whereHas(
             'roles', function($q){
-                $q->where('name', 'Admin');
+                $q->where('name', 'teacher_theme');
             })->get();
         
         $a = [];

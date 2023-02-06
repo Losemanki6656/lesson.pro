@@ -38,6 +38,11 @@ Route::group([
 
     Route::get('load-cadries', 'ExaminationCrudController@load_cadries')
         ->name('load_cadries');
+
+    
+    Route::get('load-users', 'ExaminationCrudController@load_users')
+        ->name('load_users');
+
     Route::post('add_cadry_to_exam/{id}', 'ExaminationCrudController@add_cadry_to_exam')
         ->name('add_cadry_to_exam');
     Route::get('delete_exam_cadry/{id}', 'ExaminationCrudController@delete_exam_cadry')

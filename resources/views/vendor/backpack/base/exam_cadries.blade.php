@@ -47,6 +47,11 @@
                         </select>
                     </div>
                     <div class="mb-3">
+                        <label for="">Устозни танланг</label>
+                        <select style="width: 100%" class="teacher_select" id="teacher_exam" name="teacher_id" required>
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <label for="">Балл</label>
                         <input type="number" class="form-control" name="ball" placeholder="" value="0"
                             required>
@@ -255,6 +260,35 @@
                     }
                 }
             });
+            $.ajax({
+                url: '{{ route('load_users') }}',
+                type: 'GET',
+                dataType: 'json',
+                cache: false,
+                data: {
+                    organization_id: organization_id
+                },
+                success: function(users) {
+                    var len = 0;
+                    if (users != null) {
+                        len = users.length;
+                    }
+
+                    if (len > 0) {
+                        $("#teacher_exam").empty();
+                        for (var i = 0; i < len; i++) {
+                            var id = users[i].id;
+                            var fullname = users[i].name;
+                            var option = "<option value='" + id + "'>" + fullname + "</option>";
+                            $("#teacher_exam").append(option);
+                        }
+                    } else {
+                        $("#teacher_exam").empty();
+                        var option = "<option value=''>" + "Xodim topilmadi" + "</option>";
+                        $("#teacher_exam").append(option);
+                    }
+                }
+            });
         }
     </script>
     <script>
@@ -264,8 +298,7 @@
         $(document).ready(function() {
             $('.js-example-basic-single').select2();
             $('.cadry_select').select2();
-
-
+            $('.teacher_select').select2();
         });
 
         $(document).ready(function() {
