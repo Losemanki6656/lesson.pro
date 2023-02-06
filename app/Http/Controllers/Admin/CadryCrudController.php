@@ -118,6 +118,10 @@ class CadryCrudController extends CrudController
 
     protected function setupListOperation()
     {
+        if (backpack_auth()->check()) {
+            $this->crud->query = $this->crud->query->where('organization_id', backpack_user()->userorganization->organization_id);
+        }
+
         $this->crud->addColumn([
             'name' => 'row_number',
             'type' => 'row_number',
@@ -209,7 +213,7 @@ class CadryCrudController extends CrudController
     }
     protected function setupCreateOperation()
     {
-        $user = auth()->user()->userorganization;
+        $user = backpack_user()->userorganization;
         $this->crud->setValidation(CadryRequest::class);
         $management = OrganizationManagement::where('organization_id', $user->organization_id);
         

@@ -36,6 +36,10 @@ Route::group([
     Route::get('statistics', 'DashboardController@statistics')
         ->name('statistics');
 
+    
+    Route::get('organization-statistics', 'DashboardController@org_statistics')
+        ->name('org_statistics');
+
     Route::get('load-cadries', 'ExaminationCrudController@load_cadries')
         ->name('load_cadries');
 

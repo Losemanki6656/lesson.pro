@@ -144,8 +144,8 @@ class ExaminationCrudController extends CrudController
 
     public function load_cadries(Request $request)
     {
-        $data = Cadry::where('organization_id',$request->organization_id)->where('status', true)->get();
-
+        $data = Cadry::where('organization_id', $request->organization_id)->where('status', true)->get();
+        
         return response()->json($data);
     }
 

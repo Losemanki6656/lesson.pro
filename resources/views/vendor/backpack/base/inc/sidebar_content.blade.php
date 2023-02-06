@@ -2,6 +2,10 @@
     <li class="nav-title">Организация</li>
     <li class="nav-item"><a class="nav-link" href="{{ backpack_url('dashboard') }}"><i class="la la-home nav-icon"></i>
             {{ trans('backpack::base.dashboard') }}</a></li>
+            
+    <li class="nav-item"><a class="nav-link" href="{{ backpack_url('organization-statistics') }}"><i
+                class="la la-chart-pie nav-icon"></i> Статистика </a></li>
+
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('cadry') }}'><i class='nav-icon la la-users'></i> Ходимлар
         </a></li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('department') }}'><i class='nav-icon la la-cubes'></i>

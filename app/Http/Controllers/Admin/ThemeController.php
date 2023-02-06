@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Theme;
 use App\Models\ExamCadry;
 use App\Models\Cadry;
+use App\Models\Management;
+use App\Models\OrganizationManagement;
 
 class ThemeController
 {
@@ -22,12 +24,11 @@ class ThemeController
 
     public function control()
     {
-
-        $cadries = Cadry::where('management_id', 2)->get();
-
+        $cadries = Cadry::all();
         foreach($cadries as $item)
         {
-            $item->organization_id = 16;
+           $man =  OrganizationManagement::where('organization_id', $item->organization_id)->first();
+            $item->management_id = $man->management_id;
             $item->save();
         }
 

@@ -21,6 +21,130 @@ use App\Models\OrganizationManagement;
 
 class DashboardController
 {
+    public function org_statistics(Request $request)
+    {   
+        
+        $organizations = Organization::get();
+    
+        $year_theme = now()->format('Y');
+        $month_theme = now()->format('m') - 1;
+        if($month_theme == 0) {
+            $month_theme = 12;
+            $year_theme = $year_theme - 1;
+        }
+
+        $year_exam = now()->format('Y');
+        $month_dem = now()->format('m');
+
+        if($month_dem >= 1 && $month_dem <= 3) 
+            $month_exam = 1;  else if($month_dem >= 4 && $month_dem <= 6)
+        $month_exam = 2; else  if($month_dem >= 7 && $month_dem <= 9) $month_exam = 3; else $month_exam = 4;
+
+        $month_exam = $month_exam - 1;
+        if($month_exam == 0) {
+            $month_exam = 4;
+            $year_exam = $year_exam - 1;
+        }
+
+
+        $cadries_demo = CheckCadry::where('organization_id', backpack_user()->userorganization->organization_id)->whereYear('date_theme', $year_theme)
+                ->whereMonth('date_theme', $month_theme)
+                ->where('status', false)->count();
+
+        $cadries_demo_sababli = CheckCadry::where('organization_id', backpack_user()->userorganization->organization_id)->whereYear('date_theme', $year_theme)
+                ->whereMonth('date_theme', $month_theme)
+                ->where('status', false)->where('status_dont_check', true)->count();
+
+        $examination_minus = ExamCadry::where('organization_id', backpack_user()->userorganization->organization_id)
+                ->where('year_exam', $year_exam)
+                ->where('year_quarter', $month_exam)
+                ->where('ball', '<', 56)->count();
+
+        $examination_plus = ExamCadry::where('organization_id', backpack_user()->userorganization->organization_id)
+                ->where('year_exam', $year_exam)
+                ->where('year_quarter', $month_exam)
+                ->where('ball', '>=', 56)->count();
+
+     
+        $cadries = Cadry::OrgFilter()->count();
+        $main_cadries = Cadry::OrgFilter()->where('status_work', true)->count();
+
+        $cadry30 = Cadry::OrgFilter()->where('status_young_professional', true)->count();
+        $cadrywinter = Cadry::OrgFilter()->where('status_winter', true)->count();
+        $teacher_cadries = Cadry::OrgFilter()->where('status_position', true)->count();
+       
+        $breadcrumbs = [
+            trans('backpack::crud.admin')     => backpack_url('statistics'),
+            trans('backpack::base.statistics') => false,
+        ];
+
+        $managements = Management::all();
+
+        $a = []; $b = []; 
+
+        foreach($managements as $man) 
+        {
+            $q = ExamCadry::where('management_id', $man->id)
+                    ->where('year_exam', $year_exam)
+                    ->where('year_quarter', $month_exam)
+                    ->where('ball', '!=', 0);
+
+            if($q->count()) 
+                {
+                    $z = $q->sum('ball')/$q->count();
+                    $a[$man->id] = number_format($z, 2, ',', '');
+                }
+                 else $a[$man->id] = 0;
+
+            $orgs = OrganizationManagement::where('management_id', $man->id)->pluck('organization_id')->toArray();
+            $organizations = Organization::whereIn('id', $orgs)->get();
+
+            foreach ($organizations as $org) {
+                $z = $q->where('organization_id', $org->id);
+
+                if($z->count()) 
+                        {
+                            $koef = $z->sum('ball')/$z->count();
+                            $koef = number_format($koef, 2, ',', '');
+                        }
+                     else 
+                     $koef = 0;
+
+                $b[$man->id][] =  [
+                    'organization_id' => $org->id,
+                    'management_id' => $man->id,
+                    'name' => $org->name,
+                    'koef' => $koef
+                ];
+                
+            }
+
+        }
+
+        return view('org_dashboard', [
+            'title' => trans('backpack::base.statistics'),
+            'breadcrumbs' => $breadcrumbs,
+            'cadries' => $cadries,
+            'main_cadries' => $main_cadries,
+            'cadry30' => $cadry30,
+            'teacher_cadries' => $teacher_cadries,
+            'organizations' => $organizations,
+            'cadrywinter' => $cadrywinter,
+            'cadries_demo' => $cadries_demo,
+            'cadries_demo_sababli' => $cadries_demo_sababli,
+            'year_check' => $year_theme,
+            'month_check' => $month_theme,
+            'year_exam' => $year_exam,
+            'month_exam' => $month_exam,
+            'managements' => $managements,
+            'examination_minus' => $examination_minus,
+            'examination_plus' => $examination_plus,
+            'a' => $a,
+            'b' => $b,
+            
+        ]);
+    }
+
     public function statistics(Request $request)
     {   
         
@@ -93,13 +217,21 @@ class DashboardController
 
         $managements = Management::all();
 
-        $a = []; $b = [];
+        $a = []; $b = []; 
+
         foreach($managements as $man) 
         {
             $q = ExamCadry::where('management_id', $man->id)
                     ->where('year_exam', $year_exam)
                     ->where('year_quarter', $month_exam)
                     ->where('ball', '!=', 0);
+
+            if($q->count()) 
+                {
+                    $z = $q->sum('ball')/$q->count();
+                    $a[$man->id] = number_format($z, 2, ',', '');
+                }
+                 else $a[$man->id] = 0;
 
             $orgs = OrganizationManagement::where('management_id', $man->id)->pluck('organization_id')->toArray();
             $organizations = Organization::whereIn('id', $orgs)->get();
@@ -108,7 +240,10 @@ class DashboardController
                 $z = $q->where('organization_id', $org->id);
 
                 if($z->count()) 
-                        $koef = $z->sum('ball')/$z->count();
+                        {
+                            $koef = $z->sum('ball')/$z->count();
+                            $koef = number_format($koef, 2, ',', '');
+                        }
                      else 
                      $koef = 0;
 
@@ -119,13 +254,10 @@ class DashboardController
                     'koef' => $koef
                 ];
                 
-                
             }
 
-            if($q->count())
-                $a[$man->id] = $q->sum('ball')/$q->count(); else $a[$man->id] = 0;
         }
-        // dd($b);
+
         return view('dashboard', [
             'title' => trans('backpack::base.statistics'),
             'breadcrumbs' => $breadcrumbs,
@@ -151,6 +283,7 @@ class DashboardController
 
     public function exam_teachers($org_id, $manag_id)
     {
+
         $year_exam = now()->format('Y');
         $month_dem = now()->format('m');
 
@@ -180,7 +313,10 @@ class DashboardController
                     ->where('ball', '!=', 0);
             
             if($q->count() >= 1)
-                $koef = $q->sum('ball')/$q->count(); else $koef = 0;
+            {
+                $z = $q->sum('ball')/$q->count();
+                $koef= number_format($z, 2, ',', '');
+            } else $koef = 0;
 
             $a[] = [
                 'id' => $item->id,
@@ -226,7 +362,6 @@ class DashboardController
             ->select('department_id')->groupBy('department_id')->pluck('department_id')->toArray();
 
         $departments = Department::whereIn('id', $depf)->get();
-        
         $a = [];
         foreach($departments as $item) {
             $q = ExamCadry::where('management_id', $manag_id)

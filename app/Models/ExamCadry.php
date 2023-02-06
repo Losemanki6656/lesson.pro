@@ -14,7 +14,6 @@ class ExamCadry extends Model
         return $this->belongsTo(Cadry::class);
     }
 
-
     public function organization()
     {
         return $this->belongsTo(Organization::class);

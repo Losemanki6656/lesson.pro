@@ -27,6 +27,10 @@ class DepartmentCrudController extends CrudController
 
     protected function setupListOperation()
     {
+        if (backpack_auth()->check()) {
+            $this->crud->query = $this->crud->query->where('organization_id', backpack_user()->userorganization->organization_id);
+        }
+        
         $this->crud->addColumn([
             'name' => 'id',
             'label' => '№'
