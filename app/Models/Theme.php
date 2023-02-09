@@ -24,18 +24,18 @@ class Theme extends Model
     // protected $hidden = [];
     // protected $dates = [];
 
-    protected static function boot()
-    {
-        parent::boot();
+    // protected static function boot()
+    // {
+    //     parent::boot();
 
-        if (Auth::check() && Auth::user()->userorganization) {
-            $companyId = Auth::user()->userorganization->organization_id;
+    //     if (Auth::check() && Auth::user()->userorganization) {
+    //         $companyId = Auth::user()->userorganization->organization_id;
 
-            static::addGlobalScope('organization_id', function ($builder) use ($companyId) {
-                $builder->where('organization_id', $companyId);
-            });
-        }
-    }
+    //         static::addGlobalScope('organization_id', function ($builder) use ($companyId) {
+    //             $builder->where('organization_id', $companyId);
+    //         });
+    //     }
+    // }
 
     public function cadries($crud = false)
     {

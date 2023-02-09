@@ -68,6 +68,11 @@ class ThemeCrudController extends CrudController
 
     protected function setupListOperation()
     {
+        if (backpack_auth()->check()) {
+            $this->crud->query = $this->crud->query->where('user_id', backpack_user()->id);
+        }
+
+
         $this->crud->addColumn([
             'name' => 'id',
             'label' => '№'
@@ -144,6 +149,7 @@ class ThemeCrudController extends CrudController
             ]);
 
         $this->crud->getRequest()->request->add(['railway_id'=> $user->railway_id]);
+        $this->crud->getRequest()->request->add(['user_id'=> backpack_user()->id]);
         $this->crud->getRequest()->request->add(['organization_id'=> $user->organization_id]);
 
         $this->crud->setOperationSetting('saveAllInputsExcept', ['_token', '_method', 'http_referrer', 'current_tab', 'save_action']);
