@@ -42,6 +42,12 @@ class Cadry extends Model
         return $this->belongsTo(Department::class);
     }
 
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
+    }
+
+
     public function text_html()
     {
         return str_replace("\n", "<br>", $this->fullname);

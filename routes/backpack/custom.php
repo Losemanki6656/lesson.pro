@@ -36,6 +36,9 @@ Route::group([
     Route::get('statistics', 'DashboardController@statistics')
         ->name('statistics');
 
+    Route::get('view-cadries', 'DashboardController@view_cadries')
+        ->name('view_cadries');
+
     
     Route::get('statistics/mangements', 'DashboardController@management_statistics')
         ->name('management_statistics');

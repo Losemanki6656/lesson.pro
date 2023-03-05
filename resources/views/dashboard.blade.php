@@ -212,15 +212,14 @@
                             <tr>
                                 <td></td>
                                 <td style="font-weight: bold"><i class="las la-sitemap"></i> {{ $org->name }}</td>
-                                <td class="text-primary" style="font-weight: bold"><i class="las la-users"></i>
-                                    {{ $org_cadries[$org->id] }} </td>
-                                <td class="text-success" style="font-weight: bold"><i class="las la-user-check"></i>
+                                <td style="font-weight: bold"><a href="{{ route('view_cadries', ['org_id' => $org->id, 'cadry' => true]) }}" class="text-primary" > <i class="las la-users"></i> {{ $org_cadries[$org->id] }}</a> </td>
+                                <td style="font-weight: bold"><a href="{{ route('view_cadries', ['org_id' => $org->id, 'main' => true]) }}" class="text-success"> <i class="las la-user-check"></i>
                                     {{ $org_main_cadries[$org->id] }} </td>
-                                <td class="text-warning" style="font-weight: bold"><i class="las la-snowflake"></i>
+                                <td style="font-weight: bold"><a href="{{ route('view_cadries', ['org_id' => $org->id, 'winter' => true]) }}" class="text-warning"> <i class="las la-snowflake"></i>
                                     {{ $org_winter_cadries[$org->id] }} </td>
-                                <td class="text-danger" style="font-weight: bold"> <i class="las la-user-tag"></i>
+                                <td style="font-weight: bold"><a href="{{ route('view_cadries', ['org_id' => $org->id, 'cadry30' => true]) }}" class="text-danger"> <i class="las la-user-tag"></i>
                                     {{ $org_30_cadries[$org->id] }} </td>
-                                <td class="text-danger" style="font-weight: bold"><a href=""><i
+                                <td style="font-weight: bold"><a href="{{ route('view_cadries', ['org_id' => $org->id, 'teacher' => true]) }}" class="text-dark"> <i
                                             class="las la-user-tie"></i> {{ $teacher_cadry[$org->id] }}</a> </td>
                             </tr>
                         @endforeach

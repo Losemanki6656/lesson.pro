@@ -285,6 +285,43 @@ class DashboardController
         ]);
     }
 
+    public function view_cadries(Request $request)
+    {
+        // dd($request->all());
+
+        $cadries = Cadry::query()
+            ->where('status',true)
+            ->when(request('org_id'), function ( $query, $org_id) {
+                return $query->where('organization_id', $org_id);
+
+            })
+            ->when(request('main'), function ( $query, $main) {
+                return $query->where('status_work', true);
+
+            })
+            ->when(request('winter'), function ( $query, $winter) {
+                return $query->where('status_winter', true);
+
+            })
+            ->when(request('cadry30'), function ( $query, $cadry30) {
+                return $query->where('status_young_professional', true);
+
+            })
+            ->with(['organization','position','department','education'])
+            ->paginate(15);
+            
+        $breadcrumbs = [
+                trans('backpack::crud.admin')     => backpack_url('cadries'),
+                trans('backpack::base.cadries') => false,
+            ];
+
+        return view('cadries', [
+            'title' => trans('backpack::base.cadries'),
+            'breadcrumbs' => $breadcrumbs,
+            'cadries' => $cadries
+        ]);
+    }
+
     public function management_statistics(Request $request)
     {   
         
