@@ -13,8 +13,8 @@
 @section('header')
     <div class="container-fluid">
         <h2>
-            <span class="text-capitalize"> Статистика </span>
-            <small id="datatable_info_stack"> Имтихонлар </small>
+            <span class="text-capitalize"> Машғулотга қатнашмаганлар </span>
+            <small id="datatable_info_stack"> Ходимлар </small>
         </h2>
     </div>
 @endsection
@@ -31,13 +31,13 @@
         <script>
             function filter() {
                 let organization_id = $('#organization_id').val();
-                let management_id = $('#management_id').val();
+                // let management_id = $('#management_id').val();
                 let year_theme = $('#year_theme').val();
                 let month_theme = $('#month_theme').val();
 
                 let url = '{{ route('exam_themes') }}';
                 window.location.href =
-                    `${url}?organization_id=${organization_id}&management_id=${management_id}&year_theme=${year_theme}&month_theme=${month_theme}`;
+                    `${url}?organization_id=${organization_id}&year_theme=${year_theme}&month_theme=${month_theme}`;
             }
         </script>
     @endpush
@@ -54,7 +54,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-12 col-sm-6 col-lg-2">
+            {{-- <div class="col-12 col-sm-6 col-lg-2">
                 <label for=""> Хўжаликлар</label>
                 <select class="form-control" id="management_id" onchange="filter()">
                     <option value="" @if (request('management_id') == null) selected @endif>Барчаси</option>
@@ -63,7 +63,7 @@
                             {{ $management->name }} </option>
                     @endforeach
                 </select>
-            </div>
+            </div> --}}
             <div class="col-12 col-sm-6 col-lg-2">
                 <label for=""> Йил</label>
                 <select class="form-control" id="year_theme" onchange="filter()">
@@ -84,7 +84,7 @@
                 </select>
             </div>
             <div class="col-12 col-sm-6 col-lg-2">
-                <label for=""> Чорак</label>
+                <label for=""> Ой</label>
                 <select class="form-control" id="month_theme" onchange="filter()">
                     <option value="" @if (request('month_theme') == null) selected @endif>
                         Барчаси
@@ -120,7 +120,8 @@
                 @if (count($exam_cadries))
                     @foreach ($exam_cadries as $item)
                         <tr>
-                            <td style="font-weight: bold">{{ $exam_cadries->currentPage() * 10 - 10 + $loop->index + 1 }}</td>
+                            <td style="font-weight: bold">{{ $exam_cadries->currentPage() * 10 - 10 + $loop->index + 1 }}
+                            </td>
                             <td style="font-weight: bold">{{ $item->cadry->fullname }}</td>
                             <td style="font-weight: bold">{{ $item->organization->name }}</td>
                             <td>{{ $item->department->name }}</td>
@@ -142,14 +143,14 @@
                                         <span class="badge rounded-pill bg-success">
                                             Қатнашди
                                         </span>
-    
+
                                     </span>
                                 @endif
                             </td>
                             <td>
                                 {{ $item->comment }}
                             </td>
-    
+
                         </tr>
                     @endforeach
                 @else

@@ -19,11 +19,15 @@
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('theme') }}'><i class='nav-icon la la-check-circle'></i> Машғулотлар</a></li>
 @endcan
 
+@can('leader')
+
+<li class="nav-title">Статистика</li>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('statistics') }}"><i
+            class="la la-chart-pie nav-icon"></i> Статистика </a></li>
+
+@endcan
 
 @can('admin')
-    <li class="nav-title">Статистика</li>
-    <li class="nav-item"><a class="nav-link" href="{{ backpack_url('statistics') }}"><i
-                class="la la-chart-pie nav-icon"></i> Статистика </a></li>
 
     <li class="nav-title">Имтихонлар</li>
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('examination') }}'><i

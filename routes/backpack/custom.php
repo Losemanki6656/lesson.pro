@@ -37,6 +37,10 @@ Route::group([
         ->name('statistics');
 
     
+    Route::get('statistics/mangements', 'DashboardController@management_statistics')
+        ->name('management_statistics');
+
+    
     Route::get('organization-statistics', 'DashboardController@org_statistics')
         ->name('org_statistics');
 
