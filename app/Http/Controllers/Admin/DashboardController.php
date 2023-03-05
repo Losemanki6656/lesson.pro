@@ -346,8 +346,6 @@ class DashboardController
             $exam_plus[] = $examination_minus;
             $exam_minus[] = $examination_minus;
         }
-
-        $org_id = auth()->user()->userorganization->organization_id;
         
         $cadries = Cadry::RailwayFilter()->count();
         $main_cadries = Cadry::RailwayFilter()->where('status_work', true)->count();
