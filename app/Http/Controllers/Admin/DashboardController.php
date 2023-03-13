@@ -16,6 +16,7 @@ use App\Models\Management;
 use App\Models\Department;
 use App\Models\User;
 use App\Models\Position;
+use App\Models\OrganizationCadry;
 use App\Models\OrganizationManagement;
 
 
@@ -213,16 +214,17 @@ class DashboardController
                 'count_sababli' => $cadries_demo_sababli,
             ];
             
-            $org_cadries[$org->id] = Cadry::where('organization_id', $org->id)->where('status',true)->count();
-            $org_main_cadries[$org->id] = Cadry::where('organization_id', $org->id)->where('status',true)->where('status_work',true)->count();
+            $org_cadries[$org->id] = OrganizationCadry::where('organization_id',$org->id)->first();
+            $org_main_cadries[$org->id] = Cadry::where('organization_id', $org->id)->where('status',true)->count();
+            // ->where('status_work',true)
             $org_winter_cadries[$org->id] = Cadry::where('organization_id', $org->id)->where('status',true)->where('status_winter',true)->count();
             $org_30_cadries[$org->id] = Cadry::where('organization_id', $org->id)->where('status',true)->where('status_young_professional',true)->count();
 
             $orgs[] = $org->name;
         }
         
-        $cadries = Cadry::RailwayFilter()->count();
-        $main_cadries = Cadry::RailwayFilter()->where('status_work', true)->count();
+        $cadries = OrganizationCadry::get()->sum('count_cadriez');
+        $main_cadries = Cadry::RailwayFilter()->count();
 
         $cadry30 = Cadry::RailwayFilter()->where('status_young_professional', true)->count();
         $cadrywinter = Cadry::RailwayFilter()->where('status_winter', true)->count();
@@ -287,39 +289,61 @@ class DashboardController
 
     public function view_cadries(Request $request)
     {
-        // dd($request->all());
 
-        $cadries = Cadry::query()
-            ->where('status',true)
-            ->when(request('org_id'), function ( $query, $org_id) {
-                return $query->where('organization_id', $org_id);
-
-            })
-            ->when(request('main'), function ( $query, $main) {
-                return $query->where('status_work', true);
-
-            })
-            ->when(request('winter'), function ( $query, $winter) {
-                return $query->where('status_winter', true);
-
-            })
-            ->when(request('cadry30'), function ( $query, $cadry30) {
-                return $query->where('status_young_professional', true);
-
-            })
-            ->with(['organization','position','department','education'])
-            ->paginate(15);
-            
         $breadcrumbs = [
-                trans('backpack::crud.admin')     => backpack_url('cadries'),
-                trans('backpack::base.cadries') => false,
-            ];
+            trans('backpack::crud.admin')     => backpack_url('teachers'),
+            trans('backpack::base.teachers') => false,
+        ];
 
-        return view('cadries', [
-            'title' => trans('backpack::base.cadries'),
-            'breadcrumbs' => $breadcrumbs,
-            'cadries' => $cadries
-        ]);
+        if($request->teacher) {
+            $org = $request->org_id;
+            $users = User::query()
+                ->whereHas('roles', function($query) {
+                    return $query->where('name', 'teacher_theme');
+                })
+                ->whereHas('userorganization', function($query) use ($org) {
+                    return $query->where('organization_id', $org);
+                })
+                ->with('userorganization.organization')
+                ->get();
+
+                return view('teachers', [
+                    'title' => trans('backpack::base.teachers'),
+                    'breadcrumbs' => $breadcrumbs,
+                    'users' => $users
+                ]);
+            //  dd($users);   
+        } else {
+            $cadries = Cadry::query()
+                ->where('status',true)
+                ->when(request('org_id'), function ( $query, $org_id) {
+                    return $query->where('organization_id', $org_id);
+
+                })
+                ->when(request('main'), function ( $query, $main) {
+                    return $query->where('status_work', true);
+
+                })
+                ->when(request('winter'), function ( $query, $winter) {
+                    return $query->where('status_winter', true);
+
+                })
+                ->when(request('cadry30'), function ( $query, $cadry30) {
+                    return $query->where('status_young_professional', true);
+
+                })
+                ->with(['organization','position','department','education'])
+                ->paginate(15);
+    
+                return view('cadries', [
+                    'title' => trans('backpack::base.cadries'),
+                    'breadcrumbs' => $breadcrumbs,
+                    'cadries' => $cadries
+                ]);
+        }
+       
+            
+        
     }
 
     public function management_statistics(Request $request)
@@ -389,7 +413,7 @@ class DashboardController
 
         $cadry30 = Cadry::RailwayFilter()->where('status_young_professional', true)->count();
         $cadrywinter = Cadry::RailwayFilter()->where('status_winter', true)->count();
-        // $teacher_cadries = Cadry::RailwayFilter()->where('status_position', true)->count();
+
 
         $teacher_cadries = User::whereHas(
             'roles', function($q){
@@ -408,6 +432,7 @@ class DashboardController
 
         $second_exam = 0;
         $sec = 0;
+        $o = [];
         foreach($managements as $man) 
         {
             $q = ExamCadry::where('management_id', $man->id)
@@ -423,12 +448,16 @@ class DashboardController
                     $second_exam = $second_exam + (int)$z;
                 }
                  else $a[$man->id] = 0;
+            $o[$man->id] = $man->fullname;
 
             $orgs = OrganizationManagement::where('management_id', $man->id)->pluck('organization_id')->toArray();
             $organizations2 = Organization::whereIn('id', $orgs)->get();
 
             foreach ($organizations2 as $org) {
-                $z = $q->where('organization_id', $org->id);
+                $z = ExamCadry::where('management_id', $man->id)
+                    ->where('year_exam', $year_exam)
+                    ->where('year_quarter', $month_exam)
+                    ->where('ball', '!=', 0)->where('organization_id', $org->id);
 
                 if($z->count()) 
                         {
@@ -473,7 +502,8 @@ class DashboardController
             'month_exam' => $month_exam,
             'managements' => $managements,
             'a' => $a,
-            'b' => $b
+            'b' => $b,
+            'o' => $o
         ]);
     }
 

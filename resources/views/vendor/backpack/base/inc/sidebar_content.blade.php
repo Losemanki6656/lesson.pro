@@ -19,13 +19,13 @@
     <li class='nav-item'><a class='nav-link' href='{{ backpack_url('theme') }}'><i class='nav-icon la la-check-circle'></i> Машғулотлар</a></li>
 @endcan
 
-@can('leader')
+{{-- @can('leader') --}}
 
 <li class="nav-title">Статистика</li>
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('statistics') }}"><i
             class="la la-chart-pie nav-icon"></i> Статистика </a></li>
 
-@endcan
+{{-- @endcan --}}
 
 @can('admin')
 
@@ -65,3 +65,5 @@
         </ul>
     </li>
 @endcan
+
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('organizationcadry') }}'><i class='nav-icon la la-question'></i> OrganizationCadries</a></li>

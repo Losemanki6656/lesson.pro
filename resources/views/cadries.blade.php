@@ -29,7 +29,7 @@
                 @if (count($cadries))
                     @foreach ($cadries as $item)
                         <tr>
-                            <td style="font-weight: bold">{{ $cadries->currentPage() * 10 - 10 + $loop->index + 1  }}</td>
+                            <td style="font-weight: bold">{{ $cadries->currentPage() * 15 - 15 + $loop->index + 1  }}</td>
                             <td>{{ $item->organization->name }}</td>
                             <td class="" style="font-weight: bold">{{ $item->fullname }}</td>
                             <td>{{ $item->department->name }}</td>

@@ -94,4 +94,5 @@ Route::group([
 
     Route::crud('theme', 'ThemeCrudController');
 
+    Route::crud('organizationcadry', 'OrganizationCadryCrudController');
 }); // this should be the absolute last line of this file

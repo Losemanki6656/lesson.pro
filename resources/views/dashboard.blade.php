@@ -212,8 +212,8 @@
                             <tr>
                                 <td></td>
                                 <td style="font-weight: bold"><i class="las la-sitemap"></i> {{ $org->name }}</td>
-                                <td style="font-weight: bold"><a href="{{ route('view_cadries', ['org_id' => $org->id, 'cadry' => true]) }}" class="text-primary" > <i class="las la-users"></i> {{ $org_cadries[$org->id] }}</a> </td>
-                                <td style="font-weight: bold"><a href="{{ route('view_cadries', ['org_id' => $org->id, 'main' => true]) }}" class="text-success"> <i class="las la-user-check"></i>
+                                <td style="font-weight: bold"><a  class="text-primary" > <i class="las la-users"></i> {{ $org_cadries[$org->id]->count_cadriez ?? 0 }}</a> </td>
+                                <td style="font-weight: bold"><a href="{{ route('view_cadries', ['org_id' => $org->id, 'cadry' => true]) }}" class="text-success"> <i class="las la-user-check"></i>
                                     {{ $org_main_cadries[$org->id] }} </td>
                                 <td style="font-weight: bold"><a href="{{ route('view_cadries', ['org_id' => $org->id, 'winter' => true]) }}" class="text-warning"> <i class="las la-snowflake"></i>
                                     {{ $org_winter_cadries[$org->id] }} </td>
