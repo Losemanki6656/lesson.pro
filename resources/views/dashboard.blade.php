@@ -153,13 +153,13 @@
 
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 mb-3">
                 <div id="cards_landscape_wrap-2">
-                    <a href="">
+                    <a href="#">
                         <div class="card-flyer" style="min-height: 150px">
                             <div class="text-box">
                                 <div class="text-container">
                                     <h6 class="text-success"> <i class="las la-smile" style="font-size: 24px"></i> Фаол
-                                        ходимлар </h6>
-                                    <p class="mb-0 mt-0" style="font-size: 20px; font-weight: bold">Хозирда</p>
+                                        ходимлар</h6>
+                                    <p class="mb-0 mt-0" style="font-size: 20px; font-weight: bold">Хозирда (Скоро)</p>
                                     <p class="mb-0 mt-0 font-weight-bold text-primary" style="font-size: 20px"> 26 та</p>
                                 </div>
                             </div>
@@ -170,14 +170,14 @@
 
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 mb-3">
                 <div id="cards_landscape_wrap-2">
-                    <a href="">
+                    <a href="#">
                         <div class="card-flyer" style="min-height: 150px">
                             <div class="text-box">
                                 <div class="text-container">
                                     <p class="text-dark mt-0 mb-0" style="font-size: 20px; font-weight: bold"> <i
                                             class="las la-user-times" style="font-size: 24px"></i> Билим савияси етарли
                                         даражада </p>
-                                    <p class="mb-0 mt-0" style="font-size: 20px; font-weight: bold">бўлмаган ходимлар</p>
+                                    <p class="mb-0 mt-0" style="font-size: 20px; font-weight: bold">бўлмаган ходимлар (Скоро)</p>
                                     <p class="mb-0 mt-0 font-weight-bold text-primary" style="font-size: 20px"> 26 та</p>
                                 </div>
                             </div>
@@ -290,6 +290,7 @@
 @section('after_scripts')
     {{-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script> --}}
+
 @endsection
 
 <style lang="scss">
