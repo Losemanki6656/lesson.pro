@@ -31,16 +31,14 @@
         <script>
             function filter() {
                 let result_exam = $('#result_exam').val();
-                let status_exam = $('#status_exam').val();
-                let organization_id = $('#organization_id').val();
-                let management_id = $('#management_id').val();
                 let year_exam = $('#year_exam').val();
                 let year_quarter = $('#year_quarter').val();
-                let status_order = $('#status_order').val();
+                
+                let org_id = {{ request('org_id') }};
+                let manag_id = {{ request('manag_id') }};
 
-                let url = '{{ route('exam_statistics') }}';
-                window.location.href =
-                    `${url}?result_exam=${result_exam}&status_exam=${status_exam}&organization_id=${organization_id}&management_id=${management_id}&year_exam=${year_exam}&year_quarter=${year_quarter}&status_order=${status_order}`;
+                let url = '{{ route('exam_teachers') }}';
+                window.location.href =`${url}?result_exam=${result_exam}&org_id=${org_id}&manag_id=${manag_id}&year_exam=${year_exam}&month_exam=${year_quarter}`;
             }
         </script>
     @endpush
@@ -51,39 +49,13 @@
                 <label for="" class="mb-0">Имтихон натижаси</label>
                 <select class="form-control  mb-2" id="result_exam" onchange="filter()">
                     <option value="" @if (request('result_exam') == null) selected @endif>Барчаси</option>
-                    <option value="1" @if (request('result_exam') == 1) selected @endif>Яхши натижа кўрсатганлар
+                    <option value="1" @if (request('result_exam') == 1) selected @endif> 86 дан баланд
                     </option>
-                    <option value="2" @if (request('result_exam') == 2) selected @endif>Ўта олмаганлар</option>
-                </select>
-            </div>
-            <div class="col-4 col-sm-3 col-lg-3">
-                <label for="" class="mb-0">Имтихонга қатнашиши</label>
-                <select class="form-control  mb-2" id="status_exam" onchange="filter()">
-                    <option value="" @if (request('status_exam') == null) selected @endif>Барчаси</option>
-                    <option value="1" @if (request('status_exam') == 1) selected @endif>Қатнашмаганлар(Сабабли)
+                    <option value="2" @if (request('result_exam') == 2) selected @endif> 72 дан 86 гача
                     </option>
-                    <option value="2" @if (request('status_exam') == 2) selected @endif>Қатнашмаганлар(Сабабсиз)
+                    <option value="3" @if (request('result_exam') == 3) selected @endif> 56 дан 72 гача
                     </option>
-                </select>
-            </div>
-            <div class="col-4 col-sm-3 col-lg-3">
-                <label for="" class="mb-0"> Корхоналар</label>
-                <select class="form-control  mb-2" id="organization_id" onchange="filter()">
-                    <option value="" @if (request('organization_id') == null) selected @endif>Барчаси</option>
-                    @foreach ($organizations as $organization)
-                        <option value="{{ $organization->id }}" @if (request('organization_id') == $organization->id) selected @endif>
-                            {{ $organization->name }} </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-4 col-sm-3 col-lg-3">
-                <label for="" class="mb-0"> Хўжаликлар</label>
-                <select class="form-control  mb-2" id="management_id" onchange="filter()">
-                    <option value="" @if (request('management_id') == null) selected @endif>Барчаси</option>
-                    @foreach ($managements as $management)
-                        <option value="{{ $management->id }}" @if (request('management_id') == $management->id) selected @endif>
-                            {{ $management->name }} </option>
-                    @endforeach
+                    <option value="4" @if (request('result_exam') == 4) selected @endif>Ўта олмаганлар</option>
                 </select>
             </div>
             <div class="col-4 col-sm-3 col-lg-3">
@@ -100,31 +72,24 @@
             <div class="col-4 col-sm-3 col-lg-3">
                 <label for="" class="mb-0"> Чорак</label>
                 <select class="form-control" id="year_quarter" onchange="filter()">
-                    <option value="" @if (request('year_quarter') == null) selected @endif>Барчаси</option>
-                    <option value="1" @if (request('year_quarter') == 1) selected @endif> 1 - чорак</option>
-                    <option value="2" @if (request('year_quarter') == 2) selected @endif> 2 - чорак</option>
-                    <option value="3" @if (request('year_quarter') == 3) selected @endif> 3 - чорак</option>
-                    <option value="4" @if (request('year_quarter') == 4) selected @endif> 4 - чорак</option>
-                </select>
-            </div>
-            <div class="col-4 col-sm-3 col-lg-3">
-                <label for="" class="mb-0">Натижа кўрсатгичлари бўйича</label>
-                <select class="form-control" id="status_order" onchange="filter()">
-                    <option value="" @if (request('status_order') == null) selected @endif>Барчаси</option>
-                    <option value="1" @if (request('status_order') == 1) selected @endif>Кетма-кет яхши натижа
-                    </option>
-                    <option value="2" @if (request('status_order') == 2) selected @endif> Кетма-кет паст натижа
-                    </option>
+                    <option value="" @if (request('month_exam') == null) selected @endif>Барчаси</option>
+                    <option value="1" @if (request('month_exam') == 1) selected @endif> 1 - чорак</option>
+                    <option value="2" @if (request('month_exam') == 2) selected @endif> 2 - чорак</option>
+                    <option value="3" @if (request('month_exam') == 3) selected @endif> 3 - чорак</option>
+                    <option value="4" @if (request('month_exam') == 4) selected @endif> 4 - чорак</option>
                 </select>
             </div>
         </div>
 
-        <table class="bg-white table table-striped table-hover nowrap rounded shadow-xs border-xs mt-2" cellspacing="0">
+        <table class="bg-white table table-sm table-striped table-hover nowrap rounded shadow-xs border-xs mt-2"
+            cellspacing="0">
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Корхона</th>
                     <th>Ходим</th>
+                    <th>Бўлим</th>
+                    <th>Лавозим</th>
+                    <th>Инструктор</th>
                     <th>Балл</th>
                     <th>Йил</th>
                     <th>Чорак</th>
@@ -137,21 +102,31 @@
                     @foreach ($exam_cadries as $item)
                         <tr>
                             <td>{{ $exam_cadries->currentPage() * 10 - 10 + $loop->index + 1 }}</td>
-                            <td>{{ $item->organization->name }}</td>
                             <td>{{ $item->cadry->fullname }}</td>
+                            <td>{{ $item->cadry->department->name }}</td>
+                            <td>{{ $item->cadry->position->name }}</td>
+                            <td>{{ $item->user->name }}</td>
                             <td style="font-weight: bold">{{ $item->ball }}</td>
                             <td>{{ $item->examination->year_exam }}</td>
                             <td>{{ $item->examination->year_quarter }}</td>
                             <td class="text-center">
-                                @if ($item->status_exam == true && $item->ball >= 56)
+                                @if ($item->ball >= 86)
                                     <div class="circle bg-success" style="float: left">
                                         <span class="circle__content"><i class='nav-icon la la-check'></i></span>
                                     </div>
-                                @elseif($item->status_exam == true && $item->ball < 56)
+                                @elseif($item->ball >= 72 && $item->ball < 86)
+                                    <div class="circle bg-dark" style="float: left">
+                                        <span class="circle__content"><i class='nav-icon la la-check'></i></span>
+                                    </div>
+                                @elseif($item->ball > 56 && $item->ball < 72)
+                                    <div class="circle bg-warning" style="float: left">
+                                        <span class="circle__content"><i class='nav-icon la la-check'></i></span>
+                                    </div>
+                                @elseif($item->ball < 56)
                                     <div class="circle bg-danger" style="float: left">
                                         <span class="circle__content"><i class='nav-icon la la-close'></i></span>
                                     </div>
-                                @elseif($item->status_exam == false)
+                                    {{-- @elseif($item->status_exam == false)
                                     <span class="status-column" style="float: left">
                                         @if ($item->status_dont_exam == true)
                                             <span class="badge rounded-pill bg-primary">
@@ -162,10 +137,10 @@
                                                 - Қатнашмади
                                             </span>
                                         @endif
-                                    </span>
+                                    </span> --}}
                                 @endif
                             </td>
-                            
+
                             {{-- <td>
                                 @if (request('status_order') && request('year_exam') && request(''))
                                     <span class="badge rounded-pill bg-success">

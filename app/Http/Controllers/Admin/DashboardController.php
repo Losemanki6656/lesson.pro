@@ -478,6 +478,8 @@ class DashboardController
 
         }
 
+
+
         return view('dashboard_management', [
             'title' => trans('backpack::base.statistics'),
             'org_cadries' => $org_cadries,
@@ -507,61 +509,39 @@ class DashboardController
         ]);
     }
 
-    public function exam_teachers($org_id, $manag_id)
+    public function exam_teachers(Request $request)
     {
-
-        $year_exam = now()->format('Y');
-        $month_dem = now()->format('m');
-
-        if($month_dem >= 1 && $month_dem <= 3) 
-            $month_exam = 1;  else if($month_dem >= 4 && $month_dem <= 6)
-        $month_exam = 2; else  if($month_dem >= 7 && $month_dem <= 9) $month_exam = 3; else $month_exam = 4;
-
-        $month_exam = $month_exam - 1;
-        if($month_exam == 0) {
-            $month_exam = 4;
-            $year_exam = $year_exam - 1;
-        }
-        $userorgs = UserOrganization::where('organization_id', $org_id)->pluck('user_id')->toArray();
         
-        $users = User::whereIn('id', $userorgs)->whereHas(
-            'roles', function($q){
-                $q->where('name', 'teacher_theme');
-            })->get();
+        $exam_cadries = ExamCadry::query()
+            ->where('management_id', $request->manag_id)
+            ->where('organization_id', $request->org_id)
+            ->when(request('result_exam'), function ( $query, $result_exam) {
+                if($result_exam == 1)
+                return $query->where('ball','>=', 86);
+                if($result_exam == 2)
+                return $query->where('ball','<', 86)->where('ball','>=', 72);
+                if($result_exam == 3)
+                return $query->where('ball','>=', 56)->where('ball','<', 72);
+                if($result_exam == 4)
+                return $query->where('ball','<', 56);
+
+            })
+            ->when(request('year_exam'), function ( $query, $year) {
+                return $query->where('year_exam', $year);
+
+            })
+            ->when(request('month_exam'), function ( $query, $month_exam) {
+                return $query->where('year_quarter', $month_exam);
+
+            })
+            ->orderBy('ball','desc');
         
-        $a = [];
-        foreach($users as $item) {
-            $q = ExamCadry::where('management_id', $manag_id)
-                    ->where('organization_id', $org_id)
-                    ->where('year_exam', $year_exam)
-                    ->where('year_quarter', $month_exam)
-                    ->where('user_id', $item->id)
-                    ->where('ball', '!=', 0);
-            
-            if($q->count() >= 1)
-            {
-                $z = $q->sum('ball')/$q->count();
-                $koef= number_format($z, 2, ',', '');
-            } else $koef = 0;
-
-            $a[] = [
-                'id' => $item->id,
-                'name' => $item->name,
-                'ball' => $koef
-            ];
-        }
-        $org_name = Organization::find($org_id)->name;
-        $manag_name = Management::find($manag_id)->name;
-
-        return view('backpack::exam_teachers', [
+        return view('backpack::exam_statistics', [
             'title' => trans('backpack::base.statistics'),
-            'a' => $a,
-            'org_name' => $org_name,
-            'manag_name' => $manag_name,
-            'org_id' => $org_id,
-            'manag_id' => $manag_id
+            'exam_cadries' => $exam_cadries->paginate(10),
         ]);
 
+       
     }
 
     
@@ -759,6 +739,70 @@ class DashboardController
             'user_id' => $user_id,
             'pos_id' => $pos_id,
             'pos_name' => $pos_name
+        ]);
+
+    }
+
+    public function tec()
+    {
+        $year_exam = now()->format('Y');
+        $month_dem = now()->format('m');
+
+        if($month_dem >= 1 && $month_dem <= 3) 
+            $month_exam = 1;  else if($month_dem >= 4 && $month_dem <= 6)
+        $month_exam = 2; else  if($month_dem >= 7 && $month_dem <= 9) $month_exam = 3; else $month_exam = 4;
+
+        $month_exam = $month_exam - 1;
+        if($month_exam == 0) {
+            $month_exam = 4;
+            $year_exam = $year_exam - 1;
+        }
+        $userorgs = UserOrganization::where('organization_id', $org_id)->pluck('user_id')->toArray();
+        
+        $users = User::whereIn('id', $userorgs)->whereHas(
+            'roles', function($q){
+                $q->where('name', 'teacher_theme');
+            })->get();
+        
+        $a = [];
+        foreach($users as $item) {
+            $q = ExamCadry::where('management_id', $manag_id)
+                    ->where('organization_id', $org_id)
+                    ->where('year_exam', $year_exam)
+                    ->where('year_quarter', $month_exam)
+                    ->where('user_id', $item->id)
+                    ->where('ball', '!=', 0);
+            
+            if($q->count() >= 1)
+            {
+                $z = $q->sum('ball')/$q->count();
+                $koef= number_format($z, 2, ',', '');
+            } else $koef = 0;
+
+            $a[] = [
+                'id' => $item->id,
+                'name' => $item->name,
+                'ball' => $koef
+            ];
+        }
+
+        $exam_cadries = ExamCadry::where('management_id', $manag_id)
+                    ->where('organization_id', $org_id)
+                    ->where('year_exam', $year_exam)
+                    ->where('year_quarter', $month_exam)
+                    ->where('ball', '!=', 0);
+
+        $org_name = Organization::find($org_id)->name;
+        $manag_name = Management::find($manag_id)->name;
+
+        return view('backpack::exam_statistics', [
+            'title' => trans('backpack::base.statistics'),
+            'a' => $a,
+            'org_name' => $org_name,
+            'manag_name' => $manag_name,
+            'org_id' => $org_id,
+            'manag_id' => $manag_id,
+            'exam_cadries' => $exam_cadries->paginate(10)
         ]);
 
     }

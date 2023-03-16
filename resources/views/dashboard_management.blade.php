@@ -86,6 +86,8 @@
                                             <a href="{{ route('exam_teachers', [
                                                 'org_id' => $arr['organization_id'],
                                                 'manag_id' => $arr['management_id'],
+                                                'year_exam' => $year_exam,
+                                                'month_exam' => $month_exam
                                             ]) }}"
                                                 style="font-weight: bold; font-size: 16px">{{ $arr['name'] }}</a>
                                         </li>
