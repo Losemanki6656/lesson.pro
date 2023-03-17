@@ -153,13 +153,16 @@
 
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 mb-3">
                 <div id="cards_landscape_wrap-2">
-                    <a href="#">
+                    <a href="{{ route('active_cadries', [
+                        'year_exam' => $year_exam,
+                        'month_exam' => $month_exam
+                        ]) }}">
                         <div class="card-flyer" style="min-height: 150px">
                             <div class="text-box">
                                 <div class="text-container">
                                     <h6 class="text-success"> <i class="las la-smile" style="font-size: 24px"></i> Фаол
                                         ходимлар</h6>
-                                    <p class="mb-0 mt-0" style="font-size: 20px; font-weight: bold">Хозирда (Скоро)</p>
+                                    <p class="mb-0 mt-0" style="font-size: 20px; font-weight: bold">Хозирда</p>
                                     <p class="mb-0 mt-0 font-weight-bold text-primary" style="font-size: 20px"> 26 та</p>
                                 </div>
                             </div>

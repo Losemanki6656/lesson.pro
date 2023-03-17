@@ -70,6 +70,10 @@ Route::group([
     
     Route::get('exam-teachers', 'DashboardController@exam_teachers')
         ->name('exam_teachers');
+
+    Route::get('active-cadries', 'DashboardController@active_cadries')
+        ->name('active_cadries');
+
     Route::get('exam-teacher-deps/{org_id}/{manag_id}/{user_id}', 'DashboardController@exam_teacher_deps')
         ->name('exam_teacher_deps');
     

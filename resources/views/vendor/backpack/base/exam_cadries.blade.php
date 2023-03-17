@@ -1,4 +1,4 @@
-@extends(backpack_view('layouts.top_left'))
+@extends(backpack_view('blank'))
 
 @php
     $defaultBreadcrumbs = [
@@ -315,5 +315,7 @@
             }
 
         });
+    </script>
+    <script>
     </script>
 @endsection

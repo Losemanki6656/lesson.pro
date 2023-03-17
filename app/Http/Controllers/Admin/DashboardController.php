@@ -523,7 +523,7 @@ class DashboardController
                 if($result_exam == 3)
                 return $query->where('ball','>=', 56)->where('ball','<', 72);
                 if($result_exam == 4)
-                return $query->where('ball','<', 56);
+                return $query->where('ball','<', 56)->where('ball','>', 0);
 
             })
             ->when(request('year_exam'), function ( $query, $year) {
@@ -542,6 +542,34 @@ class DashboardController
         ]);
 
        
+    }
+
+    public function active_cadries(Request $request)
+    {
+        $active_cadries = ExamCadry::query()
+            ->where('ball', 0)
+            ->when(request('month_exam'), function ( $query, $month_exam) {
+                return $query->where('year_quarter', $month_exam);
+
+            })
+            ->when(request('month_exam'), function ( $query, $month_exam) {
+                return $query->where('year_quarter', $month_exam);
+
+            })
+            ->when(request('year_exam'), function ( $query, $year) {
+                return $query->where('year_exam', $year);
+
+            })
+            ->when(request('month_exam'), function ( $query, $month_exam) {
+                return $query->where('year_quarter', $month_exam);
+
+            })
+            ->orderBy('ball','desc');
+        
+        return view('backpack::active_cadries', [
+            'title' => trans('backpack::base.statistics'),
+            'active_cadries' => $active_cadries->paginate(10),
+        ]);
     }
 
     

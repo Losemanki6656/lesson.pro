@@ -42,8 +42,8 @@ return [
 
     // CSS files that are loaded in all pages, using Laravel's asset() helper
     'styles' => [
-        // 'packages/backpack/base/css/bundle.css', // has primary color electric purple (backpack default)
-         'packages/backpack/base/css/blue-bundle.css', // has primary color blue
+        'packages/backpack/base/css/bundle.css', // has primary color electric purple (backpack default)
+        //  'packages/backpack/base/css/blue-bundle.css', // has primary color blue
 
         // Here's what's inside the bundle:
         // 'packages/@digitallyhappy/backstrap/css/style.min.css',
@@ -54,6 +54,7 @@ return [
         'packages/source-sans-pro/source-sans-pro.css',
         'packages/line-awesome/css/line-awesome.min.css',
 
+        'packages/backpack/base/css/admin.css',
         // Example (the fonts above, loaded from CDN instead)
         // 'https://maxcdn.icons8.com/fonts/line-awesome/1.1/css/line-awesome-font-awesome.min.css',
         // 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic',
