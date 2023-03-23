@@ -174,17 +174,14 @@
 
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 mb-3">
                 <div id="cards_landscape_wrap-2">
-                    <a href="{{ route('active_cadries', [
-                        'year_exam' => $year_exam,
-                        'month_exam' => $month_exam
-                        ]) }}">
+                    <a href="#">
                         <div class="card-flyer" style="min-height: 150px">
                             <div class="text-box">
                                 <div class="text-container">
                                     <h6 class="text-success"> <i class="las la-smile" style="font-size: 24px"></i> Фаол
                                         ходимлар</h6>
-                                    <p class="mb-0 mt-0" style="font-size: 20px; font-weight: bold">Хозирда</p>
-                                    <p class="mb-0 mt-0 font-weight-bold text-primary" style="font-size: 20px"> 26 та</p>
+                                    <p class="mb-0 mt-0" style="font-size: 20px; font-weight: bold">Хозирда (Скоро)</p>
+                                    <p class="mb-0 mt-0 font-weight-bold text-primary" style="font-size: 20px"> -- </p>
                                 </div>
                             </div>
                         </div>
@@ -202,7 +199,7 @@
                                             class="las la-user-times" style="font-size: 24px"></i> Билим савияси етарли
                                         даражада </p>
                                     <p class="mb-0 mt-0" style="font-size: 20px; font-weight: bold">бўлмаган ходимлар (Скоро)</p>
-                                    <p class="mb-0 mt-0 font-weight-bold text-primary" style="font-size: 20px"> 26 та</p>
+                                    <p class="mb-0 mt-0 font-weight-bold text-primary" style="font-size: 20px"> -- </p>
                                 </div>
                             </div>
                         </div>
@@ -266,7 +263,7 @@
 </div>
 
 <div class="modal fade" id="main_cadries" aria-labelledby="exampleModalLabel">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-body table-responsive">
                 <table class="bg-white table-sm table table-striped table-hover nowrap rounded shadow-xs border-xs"
@@ -275,7 +272,6 @@
                         <tr>
                             <th>#</th>
                             <th>Корхона</th>
-                            <th>Ходимлар сони</th>
                             <th>Асосий касб эгалари</th>
                         </tr>
                     </thead>
@@ -284,7 +280,6 @@
                             <tr>
                                 <td></td>
                                 <td style="font-weight: bold"><i class="las la-sitemap"></i> {{ $org->name }}</td>
-                                <td style="font-weight: bold"><a  class="text-primary" > <i class="las la-users"></i> {{ $org_cadries[$org->id]->count_cadriez ?? 0 }}</a> </td>
                                 <td style="font-weight: bold"><a href="{{ route('view_cadries', ['org_id' => $org->id, 'cadry' => true]) }}" class="text-success"> <i class="las la-user-check"></i>
                                     {{ $org_main_cadries[$org->id] }} </td>
                             </tr>
@@ -294,7 +289,6 @@
                         <tr>
                             <th>#</th>
                             <th>Корхона</th>
-                            <th>Ходимлар сони</th>
                             <th>Асосий касб эгалари</th>
                         </tr>
                     </tfoot>
@@ -306,7 +300,7 @@
 
 
 <div class="modal fade" id="winter_one" aria-labelledby="exampleModalLabel">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-body table-responsive">
                 <table class="bg-white table-sm table table-striped table-hover nowrap rounded shadow-xs border-xs"
@@ -315,7 +309,6 @@
                         <tr>
                             <th>#</th>
                             <th>Корхона</th>
-                            <th>Ходимлар сони</th>
                             <th>Биринчи қишловчилар</th>
                         </tr>
                     </thead>
@@ -324,7 +317,6 @@
                             <tr>
                                 <td></td>
                                 <td style="font-weight: bold"><i class="las la-sitemap"></i> {{ $org->name }}</td>
-                                <td style="font-weight: bold"><a  class="text-primary" > <i class="las la-users"></i> {{ $org_cadries[$org->id]->count_cadriez ?? 0 }}</a> </td>
                                 <td style="font-weight: bold"><a href="{{ route('view_cadries', ['org_id' => $org->id, 'winter' => true]) }}" class="text-warning"> <i class="las la-snowflake"></i>
                                     {{ $org_winter_cadries[$org->id] }} </td>
                             </tr>
@@ -334,7 +326,6 @@
                         <tr>
                             <th>#</th>
                             <th>Корхона</th>
-                            <th>Ходимлар сони</th>
                             <th>Биринчи қишловчилар</th>
                         </tr>
                     </tfoot>
@@ -345,7 +336,7 @@
 </div>
 
 <div class="modal fade" id="cadry30" aria-labelledby="exampleModalLabel">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-body table-responsive">
                 <table class="bg-white table-sm table table-striped table-hover nowrap rounded shadow-xs border-xs"
@@ -354,7 +345,6 @@
                         <tr>
                             <th>#</th>
                             <th>Корхона</th>
-                            <th>Ходимлар сони</th>
                             <th>Ёш мутахасссислар</th>
                         </tr>
                     </thead>
@@ -363,7 +353,6 @@
                             <tr>
                                 <td></td>
                                 <td style="font-weight: bold"><i class="las la-sitemap"></i> {{ $org->name }}</td>
-                                <td style="font-weight: bold"><a  class="text-primary" > <i class="las la-users"></i> {{ $org_cadries[$org->id]->count_cadriez ?? 0 }}</a> </td>
                                 <td style="font-weight: bold"><a href="{{ route('view_cadries', ['org_id' => $org->id, 'cadry30' => true]) }}" class="text-danger"> <i class="las la-user-tag"></i>
                                     {{ $org_30_cadries[$org->id] }} </td>
                             </tr>
@@ -373,7 +362,6 @@
                         <tr>
                             <th>#</th>
                             <th>Корхона</th>
-                            <th>Ходимлар сони</th>
                             <th>Ёш мутахасссислар</th>
                         </tr>
                     </tfoot>
@@ -384,7 +372,7 @@
 </div>
 
 <div class="modal fade" id="teacher" aria-labelledby="exampleModalLabel">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-body table-responsive">
                 <table class="bg-white table-sm table table-striped table-hover nowrap rounded shadow-xs border-xs"
@@ -393,7 +381,6 @@
                         <tr>
                             <th>#</th>
                             <th>Корхона</th>
-                            <th>Ходимлар сони</th>
                             <th>Йўриқчилар</th>
                         </tr>
                     </thead>
@@ -402,7 +389,6 @@
                             <tr>
                                 <td></td>
                                 <td style="font-weight: bold"><i class="las la-sitemap"></i> {{ $org->name }}</td>
-                                <td style="font-weight: bold"><a  class="text-primary" > <i class="las la-users"></i> {{ $org_cadries[$org->id]->count_cadriez ?? 0 }}</a> </td>
                                 <td style="font-weight: bold"><a href="{{ route('view_cadries', ['org_id' => $org->id, 'teacher' => true]) }}" class="text-dark"> <i
                                             class="las la-user-tie"></i> {{ $teacher_cadry[$org->id] }}</a> </td>
                             </tr>
@@ -412,7 +398,6 @@
                         <tr>
                             <th>#</th>
                             <th>Корхона</th>
-                            <th>Ходимлар сони</th>
                             <th>Йўриқчилар</th>
                         </tr>
                     </tfoot>
