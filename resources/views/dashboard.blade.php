@@ -35,7 +35,7 @@
 
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 mb-3">
                 <div id="cards_landscape_wrap-2">
-                    <a href="javascript: void(0)" data-toggle="modal" data-target="#orgs">
+                    <a href="javascript: void(0)" data-toggle="modal" data-target="#main_cadries">
                         <div class="card-flyer" style="min-height: 150px">
                             <div class="text-box">
                                 <div class="text-container">
@@ -56,7 +56,7 @@
 
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 mb-3">
                 <div id="cards_landscape_wrap-2">
-                    <a href="javascript: void(0)" data-toggle="modal" data-target="#orgs">
+                    <a href="javascript: void(0)" data-toggle="modal" data-target="#winter_one">
                         <div class="card-flyer" style="min-height: 150px">
                             <div class="text-box">
                                 <div class="text-container">
@@ -76,7 +76,7 @@
 
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 mb-3">
                 <div id="cards_landscape_wrap-2">
-                    <a href="javascript: void(0)" data-toggle="modal" data-target="#orgs">
+                    <a href="javascript: void(0)" data-toggle="modal" data-target="#cadry30">
                         <div class="card-flyer" style="min-height: 150px">
                             <div class="text-box">
                                 <div class="text-container">
@@ -96,7 +96,7 @@
 
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 mb-3">
                 <div id="cards_landscape_wrap-2">
-                    <a href="javascript: void(0)" data-toggle="modal" data-target="#orgs">
+                    <a href="javascript: void(0)" data-toggle="modal" data-target="#teacher">
                         <div class="card-flyer" style="min-height: 150px">
                             <div class="text-box">
                                 <div class="text-container">
@@ -113,24 +113,7 @@
                 </div>
             </div>
 
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 mb-3">
-                <div id="cards_landscape_wrap-2">
-                    <a href="{{ route('management_statistics') }}">
-                        <div class="card-flyer" style="min-height: 150px">
-                            <div class="text-box">
-                                <div class="text-container">
-                                    <h6> <i class="las la-graduation-cap" style="font-size: 24px"></i> Имтихон натижалари
-                                    </h6>
-                                    <p class="mb-0 mt-0" style="font-size: 20px; font-weight: bold">2022 йил, 4-чорак</p>
-                                    <p class="mb-0 mt-0 font-weight-bold text-primary" style="font-size: 20px">
-                                        {{ $second_exam }}%</p>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
+           
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 mb-3">
                 <div id="cards_landscape_wrap-2">
                     <a href="javascript: void(0)" data-toggle="modal" data-target="#orgs_check">
@@ -150,6 +133,44 @@
                     </a>
                 </div>
             </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 mb-3">
+                <div id="cards_landscape_wrap-2">
+                    <a href="{{ route('management_statistics') }}">
+                        <div class="card-flyer" style="min-height: 150px">
+                            <div class="text-box">
+                                <div class="text-container">
+                                    <h6> <i class="las la-graduation-cap" style="font-size: 24px"></i> Имтихон натижалари
+                                    </h6>
+                                    <p class="mb-0 mt-0" style="font-size: 20px; font-weight: bold">{{$year_exam}} йил, {{$month_exam}}-чорак</p>
+                                    <p class="mb-0 mt-0 font-weight-bold text-primary" style="font-size: 20px">
+                                        {{ $second_exam }}%</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 mb-3">
+                <div id="cards_landscape_wrap-2">
+                    <a href="javascript: void(0)" data-toggle="modal" data-target="#falseexam">
+                        <div class="card-flyer" style="min-height: 150px">
+                            <div class="text-box">
+                                <div class="text-container">
+                                    <p  class="text-danger mt-0 mb-0" style="font-size: 20px;font-weight: bold"> 
+                                        <i class="las la-graduation-cap" style="font-size: 24px"></i> Имтихонга қатнашмаганлар
+                                    </p>
+                                    <p class="mb-0 mt-0" style="font-size: 20px; font-weight: bold">{{$year_exam}} йил, {{$month_exam}}-чорак</p>
+                                    <p class="mb-0 mt-0 font-weight-bold text-primary" style="font-size: 20px">
+                                        {{ $examFalse }} та</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
 
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 mb-3">
                 <div id="cards_landscape_wrap-2">
@@ -243,6 +264,164 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="main_cadries" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-body table-responsive">
+                <table class="bg-white table-sm table table-striped table-hover nowrap rounded shadow-xs border-xs"
+                    cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Корхона</th>
+                            <th>Ходимлар сони</th>
+                            <th>Асосий касб эгалари</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($organizations as $org)
+                            <tr>
+                                <td></td>
+                                <td style="font-weight: bold"><i class="las la-sitemap"></i> {{ $org->name }}</td>
+                                <td style="font-weight: bold"><a  class="text-primary" > <i class="las la-users"></i> {{ $org_cadries[$org->id]->count_cadriez ?? 0 }}</a> </td>
+                                <td style="font-weight: bold"><a href="{{ route('view_cadries', ['org_id' => $org->id, 'cadry' => true]) }}" class="text-success"> <i class="las la-user-check"></i>
+                                    {{ $org_main_cadries[$org->id] }} </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Корхона</th>
+                            <th>Ходимлар сони</th>
+                            <th>Асосий касб эгалари</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="winter_one" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-body table-responsive">
+                <table class="bg-white table-sm table table-striped table-hover nowrap rounded shadow-xs border-xs"
+                    cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Корхона</th>
+                            <th>Ходимлар сони</th>
+                            <th>Биринчи қишловчилар</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($organizations as $org)
+                            <tr>
+                                <td></td>
+                                <td style="font-weight: bold"><i class="las la-sitemap"></i> {{ $org->name }}</td>
+                                <td style="font-weight: bold"><a  class="text-primary" > <i class="las la-users"></i> {{ $org_cadries[$org->id]->count_cadriez ?? 0 }}</a> </td>
+                                <td style="font-weight: bold"><a href="{{ route('view_cadries', ['org_id' => $org->id, 'winter' => true]) }}" class="text-warning"> <i class="las la-snowflake"></i>
+                                    {{ $org_winter_cadries[$org->id] }} </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Корхона</th>
+                            <th>Ходимлар сони</th>
+                            <th>Биринчи қишловчилар</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="cadry30" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-body table-responsive">
+                <table class="bg-white table-sm table table-striped table-hover nowrap rounded shadow-xs border-xs"
+                    cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Корхона</th>
+                            <th>Ходимлар сони</th>
+                            <th>Ёш мутахасссислар</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($organizations as $org)
+                            <tr>
+                                <td></td>
+                                <td style="font-weight: bold"><i class="las la-sitemap"></i> {{ $org->name }}</td>
+                                <td style="font-weight: bold"><a  class="text-primary" > <i class="las la-users"></i> {{ $org_cadries[$org->id]->count_cadriez ?? 0 }}</a> </td>
+                                <td style="font-weight: bold"><a href="{{ route('view_cadries', ['org_id' => $org->id, 'cadry30' => true]) }}" class="text-danger"> <i class="las la-user-tag"></i>
+                                    {{ $org_30_cadries[$org->id] }} </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Корхона</th>
+                            <th>Ходимлар сони</th>
+                            <th>Ёш мутахасссислар</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="teacher" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-body table-responsive">
+                <table class="bg-white table-sm table table-striped table-hover nowrap rounded shadow-xs border-xs"
+                    cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Корхона</th>
+                            <th>Ходимлар сони</th>
+                            <th>Йўриқчилар</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($organizations as $org)
+                            <tr>
+                                <td></td>
+                                <td style="font-weight: bold"><i class="las la-sitemap"></i> {{ $org->name }}</td>
+                                <td style="font-weight: bold"><a  class="text-primary" > <i class="las la-users"></i> {{ $org_cadries[$org->id]->count_cadriez ?? 0 }}</a> </td>
+                                <td style="font-weight: bold"><a href="{{ route('view_cadries', ['org_id' => $org->id, 'teacher' => true]) }}" class="text-dark"> <i
+                                            class="las la-user-tie"></i> {{ $teacher_cadry[$org->id] }}</a> </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Корхона</th>
+                            <th>Ходимлар сони</th>
+                            <th>Йўриқчилар</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="orgs_check" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
@@ -263,7 +442,11 @@
                             <tr>
                                 <td></td>
                                 <td style="font-weight: bold">
-                                    <a href="{{ route('exam_themes') }}"><i class="las la-sitemap"></i>
+                                    <a href="{{ route('exam_themes', [
+                                        'year_theme' => $year_check,
+                                        'month_theme' => $month_check,
+                                        'org_id' => $org->id
+                                        ]) }}"><i class="las la-sitemap"></i>
                                         {{ $org->name }}</a>
                                 </td>
                                 <td class="text-dark" style="font-weight: bold"><i class="las la-ban"></i>
@@ -272,6 +455,58 @@
                                     {{ $demo_org_cadries[$org->id]['count_sababli'] }} </td>
                                 <td class="text-danger" style="font-weight: bold"><i class="las la-minus"></i>
                                     {{ $demo_org_cadries[$org->id]['count_sababsiz'] }} </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Корхона</th>
+                            <th>Қатнашмаганлар сони</th>
+                            <th>Сабабли</th>
+                            <th>Сабабсиз</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="falseexam" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-body table-responsive">
+                <table class="bg-white table-sm table table-striped table-hover nowrap rounded shadow-xs border-xs"
+                    cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Корхона</th>
+                            <th>Қатнашмаганлар сони</th>
+                            <th>Сабабли</th>
+                            <th>Сабабсиз</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($organizations as $org)
+                            <tr>
+                                <td></td>
+                                <td style="font-weight: bold">
+                                    <a href="{{ route('examdontcadries', [
+                                        'year_exam' => $year_exam,
+                                        'month_exam' => $month_exam,
+                                        'org_id' => $org->id
+                                        ]) }}">
+                                        <i class="las la-sitemap"></i>
+                                        {{ $org->name }}</a>
+                                </td>
+                                <td class="text-danger" style="font-weight: bold"><i class="las la-ban"></i>
+                                    {{ $falseexam[$org->id]['count'] }} </td>
+                                <td class="text-success" style="font-weight: bold"><i class="las la-plus"></i>
+                                    {{ $falseexam[$org->id]['sababli'] }} </td>
+                                <td class="text-warning" style="font-weight: bold"><i class="las la-minus"></i>
+                                    {{ $falseexam[$org->id]['sababsiz'] }} </td>
                             </tr>
                         @endforeach
                     </tbody>

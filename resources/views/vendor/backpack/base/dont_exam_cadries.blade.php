@@ -13,8 +13,8 @@
 @section('header')
     <div class="container-fluid">
         <h2>
-            <span class="text-capitalize"> Статистика </span>
-            <small id="datatable_info_stack"> Имтихонлар </small>
+            <span class="text-capitalize"> Имтихонга </span>
+            <small id="datatable_info_stack"> Қатнашмаганлар </small>
         </h2>
     </div>
 @endsection
@@ -35,10 +35,9 @@
                 let year_quarter = $('#year_quarter').val();
                 
                 let org_id = {{ request('org_id') }};
-                let manag_id = {{ request('manag_id') }};
 
-                let url = '{{ route('exam_teachers') }}';
-                window.location.href =`${url}?result_exam=${result_exam}&org_id=${org_id}&manag_id=${manag_id}&year_exam=${year_exam}&month_exam=${year_quarter}`;
+                let url = '{{ route('examdontcadries') }}';
+                window.location.href =`${url}?result_exam=${result_exam}&org_id=${org_id}&year_exam=${year_exam}&month_exam=${year_quarter}`;
             }
         </script>
     @endpush
@@ -46,16 +45,13 @@
     <div>
         <div class="row row-cols-auto">
             <div class="col-4 col-sm-3 col-lg-3">
-                <label for="" class="mb-0">Имтихон натижаси</label>
+                <label for="" class="mb-0"> Сабаби </label>
                 <select class="form-control  mb-2" id="result_exam" onchange="filter()">
                     <option value="" @if (request('result_exam') == null) selected @endif>Барчаси</option>
-                    <option value="1" @if (request('result_exam') == 1) selected @endif> 86 дан баланд
+                    <option value="1" @if (request('result_exam') == 1) selected @endif> Сабабли
                     </option>
-                    <option value="2" @if (request('result_exam') == 2) selected @endif> 72 дан 86 гача
+                    <option value="2" @if (request('result_exam') == 2) selected @endif> Сабабсиз
                     </option>
-                    <option value="3" @if (request('result_exam') == 3) selected @endif> 56 дан 72 гача
-                    </option>
-                    <option value="4" @if (request('result_exam') == 4) selected @endif>Ўта олмаганлар</option>
                 </select>
             </div>
             <div class="col-4 col-sm-3 col-lg-3">
@@ -110,23 +106,7 @@
                             <td>{{ $item->examination->year_exam }}</td>
                             <td>{{ $item->examination->year_quarter }}</td>
                             <td class="text-center">
-                                @if ($item->ball >= 86 && $item->status_exam == true)
-                                    <div class="circle bg-success" style="float: left">
-                                        <span class="circle__content"><i class='nav-icon la la-check'></i></span>
-                                    </div>
-                                @elseif($item->ball >= 72 && $item->ball < 86 && $item->status_exam == true)
-                                    <div class="circle bg-dark" style="float: left">
-                                        <span class="circle__content"><i class='nav-icon la la-check'></i></span>
-                                    </div>
-                                @elseif($item->ball > 56 && $item->ball < 72 && $item->status_exam == true)
-                                    <div class="circle bg-warning" style="float: left">
-                                        <span class="circle__content"><i class='nav-icon la la-check'></i></span>
-                                    </div>
-                                @elseif($item->ball < 56  && $item->status_exam == true)
-                                    <div class="circle bg-danger" style="float: left">
-                                        <span class="circle__content"><i class='nav-icon la la-close'></i></span>
-                                    </div>
-                                @elseif($item->status_exam == false)
+                                @if($item->status_exam == false)
                                     <span class="status-column" style="float: left">
                                         @if ($item->status_dont_exam == true)
                                             <span class="badge rounded-pill bg-primary">
@@ -149,7 +129,7 @@
                     @endforeach
                 @else
                     <tr>
-                        <td class="text-center" colspan="8">
+                        <td class="text-center" colspan="10">
                             Ходим топилмади ...
                         </td>
                     </tr>
@@ -158,8 +138,10 @@
             <tfoot>
                 <tr>
                     <th>#</th>
-                    <th>Корхона</th>
                     <th>Ходим</th>
+                    <th>Бўлим</th>
+                    <th>Лавозим</th>
+                    <th>Инструктор</th>
                     <th>Балл</th>
                     <th>Йил</th>
                     <th>Чорак</th>
@@ -188,83 +170,6 @@
         </div>
     </div>
 @endsection
-
-@foreach ($active_cadries as $exam)
-    <div class="modal fade" id="exampleModal{{ $exam->id }}" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel" style="font-weight: bold"> Инфо</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <table
-                        class="bg-white table table-sm table-striped table-hover nowrap rounded shadow-xs border-xs pb-2 border-bottom">
-                        <tr>
-                            <td style="font-weight: bold"> Хўжалик:</td>
-                            <td>{{ $exam->management->name }}</td>
-                        </tr>
-                        <tr>
-                            <td style="font-weight: bold"> Корхона:</td>
-                            <td>{{ $exam->organization->name }}</td>
-                        </tr>
-                        <tr>
-                            <td style="font-weight: bold"> Ходим:</td>
-                            <td>{{ $exam->cadry->fullname }}</td>
-                        </tr>
-                    </table>
-                    @foreach ($exam->exams as $item)
-                        <table
-                            class="bg-white table table-sm table-striped table-hover nowrap rounded shadow-xs border-xs">
-                            <tr>
-                                <td style="font-weight: bold"> Имтихон натижаси:</td>
-                                <td>{{ $item->examination->year_exam }} Йил, {{ $item->examination->year_quarter }} -
-                                    чорак, <span style="font-weight: bold"> {{ $item->ball }}</span> балл</td>
-                            </tr>
-                            <tr>
-                                <td style="font-weight: bold"> Статус:</td>
-                                <td>
-                                    @if ($item->status_exam == true && $item->ball >= 56)
-                                        <span class="status-column" style="float: left">
-                                            <div class="bg-success" style="border-radius: 50%">
-                                                <i class='nav-icon la la-check'></i>
-                                            </div>
-                                        </span>
-                                    @elseif($item->status_exam == true && $item->ball < 56)
-                                        <span class="status-column" style="float: left">
-                                            <div class="bg-danger" style="border-radius: 50%">
-                                                <i class='nav-icon la la-close'></i>
-                                            </div>
-                                        </span>
-                                    @elseif($item->status_exam == false)
-                                        <span class="status-column" style="float: left">
-                                            @if ($item->status_dont_exam == true)
-                                                <span class="badge rounded-pill bg-primary">
-                                                    + Қатнашмади
-                                                </span>
-                                            @else
-                                                <span class="badge rounded-pill bg-danger">
-                                                    - Қатнашмади
-                                                </span>
-                                            @endif
-                                        </span>
-                                    @endif
-                                </td>
-                            </tr>
-                        </table>
-                    @endforeach
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"> <i class="la la-ban"></i>
-                        Қайтиш </button>
-                </div>
-            </div>
-        </div>
-    </div>
-@endforeach
-
 
 
 @push('after_styles')

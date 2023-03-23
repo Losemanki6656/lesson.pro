@@ -39,6 +39,9 @@ Route::group([
     Route::get('view-cadries', 'DashboardController@view_cadries')
         ->name('view_cadries');
 
+    Route::get('exam-cadry/{id}', 'DashboardController@exam_cadry_view')
+        ->name('exam_cadry_view');
+
     
     Route::get('statistics/mangements', 'DashboardController@management_statistics')
         ->name('management_statistics');
@@ -70,6 +73,9 @@ Route::group([
     
     Route::get('exam-teachers', 'DashboardController@exam_teachers')
         ->name('exam_teachers');
+
+    Route::get('examdontcadries', 'DashboardController@examdontcadries')
+        ->name('examdontcadries');
 
     Route::get('active-cadries', 'DashboardController@active_cadries')
         ->name('active_cadries');

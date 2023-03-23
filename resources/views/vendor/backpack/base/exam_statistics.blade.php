@@ -101,8 +101,8 @@
                 @if (count($exam_cadries))
                     @foreach ($exam_cadries as $item)
                         <tr>
-                            <td>{{ $exam_cadries->currentPage() * 10 - 10 + $loop->index + 1 }}</td>
-                            <td>{{ $item->cadry->fullname }}</td>
+                            <td style="font-weight: bold">{{ $exam_cadries->currentPage() * 10 - 10 + $loop->index + 1 }}</td>
+                            <td style="font-weight: bold">{{ $item->cadry->fullname }}</td>
                             <td>{{ $item->cadry->department->name }}</td>
                             <td>{{ $item->cadry->position->name }}</td>
                             <td>{{ $item->user->name }}</td>
@@ -150,16 +150,15 @@
                             </td> --}}
 
                             <td>
-                                <button class="btn btn-sm btn-outline-info" data-toggle="modal"
-                                    data-target="#exampleModal{{ $item->id }}"><i class="la la-eye"></i>
-                                    Кўриш</button>
+                                <a href="{{ route('exam_cadry_view',['id' => $item->cadry_id ]) }}" class="btn btn-sm btn-primary"><i class="la la-eye"></i>
+                                    Кўриш</a>
                             </td>
 
                         </tr>
                     @endforeach
                 @else
                     <tr>
-                        <td class="text-center" colspan="8">
+                        <td class="text-center" colspan="10">
                             Ходим топилмади ...
                         </td>
                     </tr>
@@ -168,8 +167,10 @@
             <tfoot>
                 <tr>
                     <th>#</th>
-                    <th>Корхона</th>
                     <th>Ходим</th>
+                    <th>Бўлим</th>
+                    <th>Лавозим</th>
+                    <th>Инструктор</th>
                     <th>Балл</th>
                     <th>Йил</th>
                     <th>Чорак</th>
@@ -199,7 +200,7 @@
     </div>
 @endsection
 
-@foreach ($exam_cadries as $exam)
+{{-- @foreach ($exam_cadries as $exam)
     <div class="modal fade" id="exampleModal{{ $exam->id }}" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -273,7 +274,7 @@
             </div>
         </div>
     </div>
-@endforeach
+@endforeach --}}
 
 
 

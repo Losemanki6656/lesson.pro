@@ -37,7 +37,7 @@
 
                 let url = '{{ route('exam_themes') }}';
                 window.location.href =
-                    `${url}?organization_id=${organization_id}&year_theme=${year_theme}&month_theme=${month_theme}`;
+                    `${url}?org_id=${organization_id}&year_theme=${year_theme}&month_theme=${month_theme}`;
             }
         </script>
     @endpush
@@ -47,9 +47,9 @@
             <div class="col-12 col-sm-6 col-lg-2">
                 <label for=""> Корхоналар</label>
                 <select class="form-control" id="organization_id" onchange="filter()">
-                    <option value="" @if (request('organization_id') == null) selected @endif>Барчаси</option>
+                    <option value="" @if (request('org_id') == null) selected @endif>Барчаси</option>
                     @foreach ($organizations as $organization)
-                        <option value="{{ $organization->id }}" @if (request('organization_id') == $organization->id) selected @endif>
+                        <option value="{{ $organization->id }}" @if (request('org_id') == $organization->id) selected @endif>
                             {{ $organization->name }} </option>
                     @endforeach
                 </select>
@@ -105,7 +105,7 @@
             </div>
         </div>
 
-        <table class="bg-white table table-striped table-hover nowrap rounded shadow-xs border-xs mt-2" cellspacing="0">
+        <table class="bg-white table table-sm table-striped table-hover nowrap rounded shadow-xs border-xs mt-2" cellspacing="0">
             <thead>
                 <tr>
                     <th>#</th>

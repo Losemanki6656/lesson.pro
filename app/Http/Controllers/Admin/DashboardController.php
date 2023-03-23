@@ -200,6 +200,17 @@ class DashboardController
                     }
                 )
                 ->count();
+            
+            $falexam = ExamCadry::where('organization_id', $org->id)->where('year_exam', $year_exam)
+                ->where('year_quarter', $month_exam)->where('status_exam', false)->count();
+            $falexamsababli = ExamCadry::where('organization_id', $org->id)->where('year_exam', $year_exam)
+                ->where('year_quarter', $month_exam)->where('status_exam', false)->where('status_dont_exam',true)->count();
+            
+            $falseexam[$org->id] = [
+                'count' => $falexam,
+                'sababli' => $falexamsababli,
+                'sababsiz' => $falexam - $falexamsababli
+            ];
 
             $cadries_demo_sababli = CheckCadry::where('organization_id', $org->id)->whereYear('date_theme', $year_theme)
                 ->whereMonth('date_theme', $month_theme)
@@ -258,6 +269,8 @@ class DashboardController
                     $sec ++ ;
                     $second_exam = $second_exam + (int)$z;
                 }
+        $examFalse = ExamCadry::where('year_exam', $year_exam)
+            ->where('year_quarter', $month_exam)->where('status_exam', false)->count();
 
         return view('dashboard', [
             'title' => trans('backpack::base.statistics'),
@@ -283,7 +296,9 @@ class DashboardController
             'exam_minus' => $exam_minus,
             'year_exam' => $year_exam,
             'month_exam' => $month_exam,
-            'managements' => $managements
+            'managements' => $managements,
+            'examFalse' => $examFalse,
+            'falseexam' => $falseexam
         ]);
     }
 
@@ -515,6 +530,7 @@ class DashboardController
         $exam_cadries = ExamCadry::query()
             ->where('management_id', $request->manag_id)
             ->where('organization_id', $request->org_id)
+            ->where('status_exam', true)
             ->when(request('result_exam'), function ( $query, $result_exam) {
                 if($result_exam == 1)
                 return $query->where('ball','>=', 86);
@@ -544,14 +560,20 @@ class DashboardController
        
     }
 
+    public function exam_cadry_view($cadry_id)
+    {
+        $cadries = ExamCadry::where('cadry_id', $cadry_id)->get();
+
+        return view('backpack::exam_cadry_view', [
+            'title' => trans('backpack::base.statistics'),
+            'cadries' => $cadries,
+        ]);
+    }
+
     public function active_cadries(Request $request)
     {
         $active_cadries = ExamCadry::query()
-            ->where('ball', 0)
-            ->when(request('month_exam'), function ( $query, $month_exam) {
-                return $query->where('year_quarter', $month_exam);
-
-            })
+            ->where('ball', '>=', 80)
             ->when(request('month_exam'), function ( $query, $month_exam) {
                 return $query->where('year_quarter', $month_exam);
 
@@ -563,10 +585,42 @@ class DashboardController
             ->when(request('month_exam'), function ( $query, $month_exam) {
                 return $query->where('year_quarter', $month_exam);
 
-            })
-            ->orderBy('ball','desc');
+            })->orderBy('ball','desc');
+    
         
         return view('backpack::active_cadries', [
+            'title' => trans('backpack::base.statistics'),
+            'active_cadries' => $active_cadries->paginate(10),
+        ]);
+    }
+
+    public function examdontcadries(Request $request)
+    {
+        $active_cadries = ExamCadry::query()
+            ->where('status_exam', false)
+            ->when(request('org_id'), function ( $query, $org_id) {
+                return $query->where('organization_id', $org_id);
+
+            })
+            ->when(request('month_exam'), function ( $query, $month_exam) {
+                return $query->where('year_quarter', $month_exam);
+
+            })
+            ->when(request('result_exam'), function ( $query, $result_exam) {
+                if($result_exam == 1) {
+                    return $query->where('status_dont_exam', true);
+                } else {
+                    return $query->where('status_dont_exam', false);
+                }
+                
+
+            })
+            ->when(request('year_exam'), function ( $query, $year) {
+                return $query->where('year_exam', $year);
+
+            });
+        
+        return view('backpack::dont_exam_cadries', [
             'title' => trans('backpack::base.statistics'),
             'active_cadries' => $active_cadries->paginate(10),
         ]);

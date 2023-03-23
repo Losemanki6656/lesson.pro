@@ -105,12 +105,9 @@ class ExaminationController
     public function exam_themes(Request $request)
     {
 
-        if(request('year_theme')) $year_theme = $request->year_theme; else $year_theme = now()->format('Y');
-        if(request('month_theme')) $month_theme = $request->month_theme; else $month_theme = now()->format('m');
-
         $exam_cadries = CheckCadry::query()
-            ->when(request('organization_id'), function ( $query, $organization_id) {
-                return $query->where('organization_id', $organization_id);
+            ->when(request('org_id'), function ( $query, $org_id) {
+                return $query->where('organization_id', $org_id);
 
             })
             ->when(request('year_theme'), function ( $query, $year_theme) {
